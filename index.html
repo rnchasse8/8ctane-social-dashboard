@@ -172,6 +172,15 @@
       .pb-move .pb-label { color: var(--cyan); }
       .pb-move p { margin: 0; font-size: 15.5px; font-weight: 600; }
 
+      /* ---------- Schedule ---------- */
+      .tgt { font-size: 16.5px; font-weight: 600; margin-top: 6px; line-height: 1.35; }
+      .sched-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 12px; }
+      .day { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; }
+      .day h3 { font-size: 21px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+      .slot { padding: 8px 0; border-bottom: 1px solid #131e27; font-size: 14.5px; }
+      .slot:last-child { border-bottom: none; padding-bottom: 2px; }
+      .slot .sp { display: block; color: var(--cyan); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1px; }
+
       /* ---------- Footnotes ---------- */
       footer.notes { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--faint); font-size: 13px; }
       footer.notes p { margin: 0 0 6px; }
@@ -237,6 +246,7 @@
         <button class="filter-btn" data-filter="tiktok" type="button">TikTok</button>
         <button class="filter-btn" data-filter="x" type="button">X / Twitter</button>
         <button class="filter-btn" data-filter="playbook" type="button">Playbook</button>
+        <button class="filter-btn" data-filter="schedule" type="button">Schedule</button>
       </nav>
 
       <!-- ================= OVERALL DASHBOARD ================= -->
@@ -275,27 +285,6 @@
             <div class="sub">vs 1,710 last week · Instagram + Threads + TikTok — YouTube excluded (Studio reports likes only as a net change)</div>
             <span class="chip down">▼ 31.1%</span>
           </div>
-        </div>
-
-        <div class="cards" style="margin-top:12px;">
-          <div class="card">
-            <div class="k">Accounts reached</div>
-            <div class="v">11,358</div>
-            <div class="sub">Instagram only — the other platforms do not return a reach figure · vs 12,626 last week</div>
-            <span class="chip down">▼ 10.0%</span>
-          </div>
-          <div class="card">
-            <div class="k">Engaged accounts</div>
-            <div class="v">440</div>
-            <div class="sub">Instagram · vs 937 last week</div>
-            <span class="chip down">▼ 53.0%</span>
-          </div>
-          <div class="card">
-            <div class="k">Total likes</div>
-            <div class="v">1,030</div>
-            <div class="sub">TikTok 516 · Instagram 513 · Threads 1 · vs 1,491 last week</div>
-            <span class="chip down">▼ 30.9%</span>
-          </div>
           <div class="card">
             <div class="k">Posts published</div>
             <div class="v">17</div>
@@ -304,24 +293,7 @@
           </div>
         </div>
 
-        <div class="grid-2" style="margin-top:12px;">
-          <div class="panel">
-            <h3>The bright spots — <span class="accent">interest &amp; growth</span></h3>
-            <div class="stat-inline">
-              <div class="si"><b>371</b><span>Profile visits (IG)</span></div>
-              <div class="si"><b style="color:var(--cyan);">+5.1%</b><span>vs 353 last week</span></div>
-              <div class="si"><b>8</b><span>Bio link taps (IG)</span></div>
-              <div class="si"><b style="color:var(--cyan);">+60.0%</b><span>vs 5 last week</span></div>
-            </div>
-            <div class="stat-inline" style="margin-top:14px;">
-              <div class="si"><b>25</b><span>TikTok shares</span></div>
-              <div class="si"><b style="color:var(--cyan);">+8.7%</b><span>vs 23 last week</span></div>
-              <div class="si"><b>+4</b><span>TikTok net followers</span></div>
-              <div class="si"><b>+5</b><span>Threads net followers</span></div>
-            </div>
-            <p class="note">Fewer people saw the content, but more of them came to the profile and tapped through — Threads led follower growth at +5, with TikTok right behind at +4.</p>
-          </div>
-          <div class="panel">
+        <div class="panel" style="margin-top:12px;">
             <h3>Top content — <span class="accent">overall</span></h3>
             <div class="toppost">
               <div class="tp-meta">TikTok · Oct 20</div>
@@ -343,7 +315,6 @@
               <div class="tp-title">2028 @eb41roche — 70mph → 89mph</div>
               <div class="tp-stats">77 views · 0 likes — Threads' top post of the week</div>
             </div>
-          </div>
         </div>
       </section>
 
@@ -354,305 +325,31 @@
           <span class="handle">Followers first</span>
         </div>
 
-        <div class="cards" style="margin-bottom:12px;">
-          <div class="card">
-            <div class="k">Net new followers — combined</div>
-            <div class="v">+3 <small>this week</small></div>
-            <div class="sub">Last week: −8 · Growth rate +0.01% on the 35,755 base (last: −0.02%)</div>
-            <span class="chip up">▲ Turned positive</span>
-          </div>
-          <div class="card">
-            <div class="k">Net new — TikTok</div>
-            <div class="v">+4</div>
-            <div class="sub">Last week: +1 · Followers now 10,011 (Oct 19)</div>
-            <span class="chip up">▲ Best week of the four</span>
-          </div>
-          <div class="card">
-            <div class="k">Net new — Threads</div>
-            <div class="v">+5</div>
-            <div class="sub">Last week: +10 · Growth rate +0.81%</div>
-            <span class="chip down">▼ 50.0% vs last week</span>
-          </div>
-          <div class="card">
-            <div class="k">Net new — Instagram</div>
-            <div class="v">−2</div>
-            <div class="sub">Last week: −18 · Growth rate −0.01% (last: −0.10%)</div>
-            <span class="chip up">▲ Loss narrowed</span>
-          </div>
-        </div>
-
-        <div class="cards" style="margin-bottom:12px;">
-          <div class="card">
-            <div class="k">Net new — YouTube</div>
-            <div class="v">−4</div>
-            <div class="sub">Last week: −1 · Subscribers now 7,155</div>
-            <span class="chip down">▼ 3 more than last week</span>
-          </div>
-          <div class="card">
-            <div class="k">Reach from non-followers</div>
-            <div class="v">51.4%<small> IG views</small></div>
-            <div class="sub">Threads views from non-followers: 88.2% (last: 78.0%) · IG last week: 51.9%</div>
-          </div>
-        </div>
-
         <div class="grid-2">
           <div class="panel">
-            <h3>Daily followers — <span class="accent">Instagram</span></h3>
-            <div id="trend-ig"></div>
-            <p class="note">Oct 7–19, 2026. Meta did not return Oct 8 or Oct 16 — the line connects across those gaps. Profile now reads 17,970.</p>
+            <h3>Daily followers — <span class="accent">combined</span></h3>
+            <div id="trend-combined"></div>
+            <p class="note">Instagram + Threads + TikTok daily totals, Oct 7–19, 2026. Meta did not return Oct 8 or Oct 16 for Instagram, so those days are skipped. YouTube is not in the line — Studio reports daily net subscriber change only, not daily totals.</p>
           </div>
           <div class="panel">
-            <h3>Daily followers — <span class="accent">Threads</span></h3>
-            <div id="trend-th"></div>
-            <p class="note">Oct 7–19, 2026. Profile now reads 619.</p>
-          </div>
-        </div>
-
-        <div class="grid-2" style="margin-top:12px;">
-          <div class="panel">
-            <h3>Daily followers — <span class="accent">TikTok</span></h3>
-            <div id="trend-tt"></div>
-            <p class="note">Oct 7–19, 2026 — TikTok Analytics has no Oct 20 data yet. Total now reads 10,011.</p>
-          </div>
-          <div class="panel">
-            <h3>Daily net subscribers — <span class="accent">YouTube</span></h3>
-            <div id="trend-yt"></div>
-            <p class="note">Daily net change (gained minus lost) from YouTube Studio — the channel ended the two weeks at 7,155 subscribers, net −5 across both windows (−1 last week, −4 this week).</p>
-          </div>
-        </div>
-
-        <div class="grid-2" style="margin-top:12px;">
-          <div class="panel">
-            <h3>Instagram <span class="accent">Funnel</span></h3>
-            <div class="funnel">
-              <div class="fstep" style="width:100%;">
-                <div class="fk">Accounts reached</div>
-                <div class="fv">11,358</div>
-              </div>
-              <div class="fstep" style="width:72%;">
-                <div class="fk">Profile visits</div>
-                <div class="fv">371</div>
-                <div class="fc">3.3% of reached accounts visited the profile</div>
-              </div>
-              <div class="fstep" style="width:52%;">
-                <div class="fk">Net new followers</div>
-                <div class="fv">−2</div>
-                <div class="fc">Visits did not convert into net growth this week</div>
-              </div>
+            <h3>Next follower <span class="accent">milestones</span></h3>
+            <div class="mile">
+              <div class="mile-top"><span><b>Instagram</b> → 18,000</span><span class="away">30 away · 99.8%</span></div>
+              <div class="track"><div class="fill" style="width:99.8%;"></div></div>
             </div>
-            <p class="funnel-vs">Last week: 12,626 reached → 353 visits (2.8%) → −18 net new. Visit conversion improved (2.8% → 3.3%) even as reach fell.</p>
-            <p class="note">Threads funnel unavailable — Meta's Threads insights do not return accounts reached or profile visits.</p>
-          </div>
-          <div>
-            <div class="panel" style="margin-bottom:12px;">
-              <h3>Next follower <span class="accent">milestones</span></h3>
-              <div class="mile">
-                <div class="mile-top"><span><b>Instagram</b> → 18,000</span><span class="away">30 away · 99.8%</span></div>
-                <div class="track"><div class="fill" style="width:99.8%;"></div></div>
-              </div>
-              <div class="mile">
-                <div class="mile-top"><span><b>Threads</b> → 650</span><span class="away">31 away · 95.2%</span></div>
-                <div class="track"><div class="fill" style="width:95.2%;"></div></div>
-              </div>
-              <div class="mile">
-                <div class="mile-top"><span><b>TikTok</b> → 11,000</span><span class="away">989 away · 91.0%</span></div>
-                <div class="track"><div class="fill" style="width:91.0%;"></div></div>
-              </div>
-              <div class="mile">
-                <div class="mile-top"><span><b>YouTube</b> → 8,000</span><span class="away">845 away · 89.4%</span></div>
-                <div class="track"><div class="fill" style="width:89.4%;"></div></div>
-              </div>
+            <div class="mile">
+              <div class="mile-top"><span><b>Threads</b> → 650</span><span class="away">31 away · 95.2%</span></div>
+              <div class="track"><div class="fill" style="width:95.2%;"></div></div>
             </div>
-            <div class="panel">
-              <h3>Weekly follower <span class="accent">goal tracker</span></h3>
-              <div class="goal-line">
-                <span class="si"><span style="color:var(--faint);font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600;">Goal</span><br /><span class="not-set">Not set yet</span></span>
-              </div>
-              <div class="stat-inline" style="margin-top:12px;">
-                <div class="si"><b style="color:var(--cyan);">+3</b><span>Actual net, all platforms — this week</span></div>
-                <div class="si"><b>−8</b><span>Actual net, all platforms — last week</span></div>
-              </div>
-              <p class="note">No weekly follower target has been set for the team accounts yet, so no goal progress is shown.</p>
+            <div class="mile">
+              <div class="mile-top"><span><b>TikTok</b> → 11,000</span><span class="away">989 away · 91.0%</span></div>
+              <div class="track"><div class="fill" style="width:91.0%;"></div></div>
+            </div>
+            <div class="mile">
+              <div class="mile-top"><span><b>YouTube</b> → 8,000</span><span class="away">845 away · 89.4%</span></div>
+              <div class="track"><div class="fill" style="width:89.4%;"></div></div>
             </div>
           </div>
-        </div>
-
-        <div class="grid-2" style="margin-top:12px;">
-          <div class="panel">
-            <h3>TikTok <span class="accent">Funnel</span></h3>
-            <div class="funnel">
-              <div class="fstep" style="width:100%;">
-                <div class="fk">Video views (Oct 13–19)</div>
-                <div class="fv">~15.7K</div>
-              </div>
-              <div class="fstep" style="width:72%;">
-                <div class="fk">Profile views</div>
-                <div class="fv">137</div>
-                <div class="fc">0.9% of video views reached the profile</div>
-              </div>
-              <div class="fstep" style="width:52%;">
-                <div class="fk">Net new followers</div>
-                <div class="fv">+4</div>
-                <div class="fc">Second-best net growth this week — Threads added +5</div>
-              </div>
-            </div>
-            <p class="funnel-vs">Last week: ~16.0K video views → 165 profile views → +1 net new.</p>
-          </div>
-          <div class="panel">
-            <h3>YouTube <span class="accent">Conversion</span></h3>
-            <div class="stat-inline">
-              <div class="si"><b>5,842</b><span>Views — this week</span></div>
-              <div class="si"><b>21.7 hrs</b><span>Watch time</span></div>
-              <div class="si"><b>−4</b><span>Net subscribers</span></div>
-            </div>
-            <p class="note" style="margin-top:14px;">Views did not convert this week: 5,842 views ended at −4 net subscribers (last week: 7,816 views → −1). YouTube Studio does not return a profile-visit step, so there is no middle funnel stage to show.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= COMBINED WEEK VS WEEK ================= -->
-      <section class="block" data-show="all">
-        <div class="sec-head">
-          <h2>Week vs <span class="accent">Week</span></h2>
-          <span class="handle">Oct 14–20 vs Oct 7–13, 2026</span>
-        </div>
-        <div class="panel">
-          <div class="legend">
-            <span><span class="sw tw"></span>This week (Oct 14–20)</span>
-            <span><span class="sw lw"></span>Last week (Oct 7–13)</span>
-          </div>
-          <div class="bars">
-            <div class="bar-group">
-              <div class="bar-label"><span>Content views (all four platforms)</span></div>
-              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:79.3%;"></div></div><span class="bar-val">~59,224</span></div>
-              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">~74,701</span></div>
-            </div>
-            <div class="bar-group">
-              <div class="bar-label"><span>Total interactions (IG + Threads + TikTok)</span></div>
-              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:68.9%;"></div></div><span class="bar-val">1,179</span></div>
-              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">1,710</span></div>
-            </div>
-            <div class="bar-group">
-              <div class="bar-label"><span>Accounts reached (Instagram)</span></div>
-              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:90.0%;"></div></div><span class="bar-val">11,358</span></div>
-              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">12,626</span></div>
-            </div>
-            <div class="bar-group">
-              <div class="bar-label"><span>Posts published (all four platforms)</span></div>
-              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">17</span></div>
-              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:64.7%;"></div></div><span class="bar-val">11</span></div>
-            </div>
-          </div>
-          <p class="note">Bars are scaled within each metric pair. View totals include TikTok's rounded counts and its Oct 13–19 window. Interactions exclude YouTube — Studio reports likes only as a net change. Publishing volume rose (17 vs 11) while views and interactions fell — output is up, per-post pull is down.</p>
-        </div>
-      </section>
-
-      <!-- ================= POST STYLE PERFORMANCE ================= -->
-      <section class="block" data-show="all">
-        <div class="sec-head">
-          <h2>Post Style <span class="accent">Performance</span></h2>
-          <span class="handle">This week primary · Oct 14–20, 2026</span>
-        </div>
-        <div class="tbl-wrap">
-          <table class="style-table">
-            <thead>
-              <tr>
-                <th>Style</th>
-                <th>Posts — this wk</th>
-                <th>Posts — last wk</th>
-                <th>Avg likes / views per post</th>
-                <th>Avg reach</th>
-                <th>Eng. rate</th>
-                <th>Shares</th>
-                <th>Saves</th>
-                <th>New followers attributed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><b>Reels / Video</b> (Instagram)</td>
-                <td>5</td>
-                <td>2</td>
-                <td>91.2 likes <span class="dash">(last wk 89.0)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Carousel</b> (Instagram)</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Single Photo</b> (Instagram)</td>
-                <td>0</td>
-                <td>1</td>
-                <td class="dash">last wk: 8 likes on the one post</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Stories</b> (Instagram)</td>
-                <td><span class="dash">Oct 20 items expired</span></td>
-                <td class="dash">—</td>
-                <td>1 story reply <span class="dash">(last wk 0)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Text / Threads posts</b></td>
-                <td>5</td>
-                <td>3</td>
-                <td>30.8 views <span class="dash">(last wk 51.7)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Shorts / Video</b> (YouTube)</td>
-                <td>3</td>
-                <td>3</td>
-                <td>Window views 5,842 <span class="dash">(last wk 7,816 — includes views of older videos, not a per-post average)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td>5 <span class="dash">(last wk 9)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-              <tr>
-                <td><b>Video</b> (TikTok)</td>
-                <td>4</td>
-                <td>2</td>
-                <td>Window views ~15.7K <span class="dash">(last wk ~16.0K — includes views of older videos, not a per-post average)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-                <td>25 <span class="dash">(last wk 23)</span></td>
-                <td class="dash">—</td>
-                <td class="dash">—</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">Meta's connectors do not return average reach, engagement rate, shares, saves, or attributed new followers broken out by post style — those cells show — rather than an estimate. Last-week story count was not returned. YouTube and TikTok rows use window totals only: their view counts include views of older videos, so no per-post averages are shown for them.</p>
-        <div class="callout">
-          <h3>What's working</h3>
-          <p>Reels/Video is what's working — it was 100% of this week's Instagram feed, avg 91.2 likes/post (up from 89.0 last week), top post the Oct 20 eb41roche reel (150 likes). The only photo post pulled 8 likes. Threads posted more (5 vs 3) but avg views/post fell from 51.7 to 30.8.</p>
         </div>
       </section>
 
@@ -1288,7 +985,205 @@
           </div>
         </div>
 
+        <div style="margin-top:30px;">
+        <div class="sec-head">
+          <h2>Post Style <span class="accent">Performance</span></h2>
+          <span class="handle">This week primary · Oct 14–20, 2026</span>
+        </div>
+        <div class="tbl-wrap">
+          <table class="style-table">
+            <thead>
+              <tr>
+                <th>Style</th>
+                <th>Posts — this wk</th>
+                <th>Posts — last wk</th>
+                <th>Avg likes / views per post</th>
+                <th>Avg reach</th>
+                <th>Eng. rate</th>
+                <th>Shares</th>
+                <th>Saves</th>
+                <th>New followers attributed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Reels / Video</b> (Instagram)</td>
+                <td>5</td>
+                <td>2</td>
+                <td>91.2 likes <span class="dash">(last wk 89.0)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Carousel</b> (Instagram)</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Single Photo</b> (Instagram)</td>
+                <td>0</td>
+                <td>1</td>
+                <td class="dash">last wk: 8 likes on the one post</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Stories</b> (Instagram)</td>
+                <td><span class="dash">Oct 20 items expired</span></td>
+                <td class="dash">—</td>
+                <td>1 story reply <span class="dash">(last wk 0)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Text / Threads posts</b></td>
+                <td>5</td>
+                <td>3</td>
+                <td>30.8 views <span class="dash">(last wk 51.7)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Shorts / Video</b> (YouTube)</td>
+                <td>3</td>
+                <td>3</td>
+                <td>Window views 5,842 <span class="dash">(last wk 7,816 — includes views of older videos, not a per-post average)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td>5 <span class="dash">(last wk 9)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Video</b> (TikTok)</td>
+                <td>4</td>
+                <td>2</td>
+                <td>Window views ~15.7K <span class="dash">(last wk ~16.0K — includes views of older videos, not a per-post average)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td>25 <span class="dash">(last wk 23)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">Meta's connectors do not return average reach, engagement rate, shares, saves, or attributed new followers broken out by post style — those cells show — rather than an estimate. Last-week story count was not returned. YouTube and TikTok rows use window totals only: their view counts include views of older videos, so no per-post averages are shown for them.</p>
+        <div class="callout">
+          <h3>What's working</h3>
+          <p>Reels/Video is what's working — it was 100% of this week's Instagram feed, avg 91.2 likes/post (up from 89.0 last week), top post the Oct 20 eb41roche reel (150 likes). The only photo post pulled 8 likes. Threads posted more (5 vs 3) but avg views/post fell from 51.7 to 30.8.</p>
+        </div>
+        </div>
+
         <p style="color:var(--faint);font-size:13px;margin-top:18px;">Advice drawn from this dashboard's own data, refreshed daily. Windows: Oct 14–20 vs Oct 7–13, 2026 (TikTok Oct 13–19 vs Oct 6–12).</p>
+      </section>
+
+      <!-- ================= WEEKLY CONTENT SCHEDULE ================= -->
+      <section class="block hidden-by-filter" data-show="schedule">
+        <div class="sec-head">
+          <h2>Weekly Content <span class="accent">Schedule</span></h2>
+          <span class="handle">A rough weekly rhythm for growing the brand</span>
+        </div>
+
+        <div class="callout" style="margin-top:0;">
+          <h3>This week's focus</h3>
+          <p>Launch the <b>Transformation Series</b> — one athlete before/after story, cut four ways.</p>
+        </div>
+        <p style="color:var(--muted);font-size:15px;margin-top:12px;"><b style="color:var(--white);">Production note:</b> One training-floor session can feed every slot below. Film once, cut per platform.</p>
+
+        <div class="sec-head" style="margin-top:30px;">
+          <h2 style="font-size:23px;">Weekly <span class="accent">Targets</span></h2>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="k">Instagram</div>
+            <div class="tgt">5 Reels + 2 carousel tests · Stories 4+ days</div>
+          </div>
+          <div class="card">
+            <div class="k">TikTok</div>
+            <div class="tgt">7 posts — one daily</div>
+          </div>
+          <div class="card">
+            <div class="k">YouTube</div>
+            <div class="tgt">3 Shorts — at least 1 transformation</div>
+          </div>
+          <div class="card">
+            <div class="k">Threads</div>
+            <div class="tgt">1 take per day + replies daily</div>
+          </div>
+        </div>
+
+        <div class="sec-head" style="margin-top:30px;">
+          <h2 style="font-size:23px;">Day by <span class="accent">Day</span></h2>
+        </div>
+        <div class="sched-grid">
+          <div class="day">
+            <h3>Monday</h3>
+            <div class="slot"><span class="sp">Instagram · Reel</span>Weekend training highlight</div>
+            <div class="slot"><span class="sp">TikTok</span>Same clip, number-first opening</div>
+            <div class="slot"><span class="sp">Threads</span>Number of the day + one-line take</div>
+          </div>
+          <div class="day">
+            <h3>Tuesday</h3>
+            <div class="slot"><span class="sp">YouTube · Short</span>Transformation or a number</div>
+            <div class="slot"><span class="sp">TikTok</span>Drill clip</div>
+            <div class="slot"><span class="sp">Instagram · Story</span>Fun Fact</div>
+            <div class="slot"><span class="sp">Threads</span>Reply sweep — answer every reply</div>
+          </div>
+          <div class="day">
+            <h3>Wednesday</h3>
+            <div class="slot"><span class="sp">Instagram · Carousel test</span>Before/after velocity data cards</div>
+            <div class="slot"><span class="sp">TikTok</span>Athlete moment</div>
+            <div class="slot"><span class="sp">Threads</span>Daily take</div>
+          </div>
+          <div class="day">
+            <h3>Thursday</h3>
+            <div class="slot"><span class="sp">Instagram · Reel</span>Transformation Series episode</div>
+            <div class="slot"><span class="sp">TikTok</span>Same story, native cut</div>
+            <div class="slot"><span class="sp">YouTube · Short</span>Transformation, "X mph → Y mph in Z" title</div>
+            <div class="slot"><span class="sp">Threads</span>Quote-post with a fresh angle</div>
+          </div>
+          <div class="day">
+            <h3>Friday</h3>
+            <div class="slot"><span class="sp">Instagram · Reel</span>Weekend preview / session energy</div>
+            <div class="slot"><span class="sp">TikTok</span>Clip of the day</div>
+            <div class="slot"><span class="sp">Instagram · Story</span>Weekend schedule reminder</div>
+            <div class="slot"><span class="sp">Threads</span>Daily take</div>
+          </div>
+          <div class="day">
+            <h3>Saturday</h3>
+            <div class="slot"><span class="sp">TikTok</span>Best raw moment of the week</div>
+            <div class="slot"><span class="sp">Instagram · Story</span>Game-day / session clips</div>
+            <div class="slot"><span class="sp">Threads</span>Quick hit</div>
+          </div>
+          <div class="day">
+            <h3>Sunday</h3>
+            <div class="slot"><span class="sp">Instagram · Reel</span>Week recap / tease next transformation</div>
+            <div class="slot"><span class="sp">TikTok</span>Recap cut</div>
+            <div class="slot"><span class="sp">YouTube · Short</span>Second transformation or recap</div>
+            <div class="slot"><span class="sp">Threads</span>Daily take</div>
+          </div>
+        </div>
+
+        <p style="color:var(--faint);font-size:13px;margin-top:18px;">A model week, not a fixed calendar — shift days to match the training schedule. Built from the Playbook's data (Oct 14–20 vs Oct 7–13, 2026).</p>
       </section>
 
       <!-- ================= FOOTNOTES ================= -->
@@ -1298,7 +1193,7 @@
         <p><b>Combined totals:</b> Total views (~59,224 this week vs ~74,701 last week) include TikTok's rounded view counts, and TikTok's window is Oct 13–19 vs Oct 6–12, one day behind the others. Total interactions (1,179 vs 1,710) sum Instagram + Threads + TikTok likes/comments/shares and exclude YouTube, because Studio reports likes only as a net change. Total likes (1,030 vs 1,491) are gross likes from Instagram, Threads, and TikTok only.</p>
         <p><b>YouTube likes:</b> YouTube Studio reports Likes as a net change (added minus removed): −139 this week vs +27 last week. It is shown as Net Likes Change in the YouTube table and is never added into gross like totals.</p>
         <p><b>TikTok windows:</b> TikTok Analytics lags ~1 day — its "this week" is Oct 13–19 vs Oct 6–12, and its video views are displayed rounded (~15.7K / ~16.0K). The −1.7% views change is TikTok's own reported figure for the period.</p>
-        <p><b>Daily follower trend:</b> Meta did not return Oct 8 or Oct 16 for Instagram — the line connects across those gaps. The Threads trend runs through Oct 19; the profile now reads 619. The TikTok trend runs Oct 7–19; YouTube's chart shows daily net subscriber change, not totals.</p>
+        <p><b>Daily follower trend:</b> The All view's combined line sums the Instagram, Threads and TikTok daily totals (Oct 7–19, 2026). Meta did not return Oct 8 or Oct 16 for Instagram, so those days are skipped. YouTube is not in the line — Studio reports daily net subscriber change only, not daily totals.</p>
         <p><b>Per-post data:</b> Meta returns likes/comments for Instagram posts and views/likes for Threads posts only — per-post reach, shares, and saves by style are not available and are shown as —.</p>
         <p><b>Windows:</b> This week = Oct 14–20, 2026 · Last week = Oct 7–13, 2026. Change chips: cyan = increase, gray outline = decrease.</p>
       </footer>
@@ -1313,19 +1208,27 @@
         var ncSection = document.querySelector('[data-show="notconnected"]');
         var ncPanels = ncSection ? ncSection.querySelectorAll("[data-platform]") : [];
         var playbookSection = document.querySelector('[data-show="playbook"]');
+        var scheduleSection = document.querySelector('[data-show="schedule"]');
+
+        function hideSpecial() {
+          if (playbookSection) playbookSection.classList.add("hidden-by-filter");
+          if (scheduleSection) scheduleSection.classList.add("hidden-by-filter");
+        }
 
         function apply(filter) {
           buttons.forEach(function (b) {
             b.classList.toggle("active", b.getAttribute("data-filter") === filter);
           });
-          if (filter === "playbook") {
+          if (filter === "playbook" || filter === "schedule") {
             allSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
             platformSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
             if (ncSection) ncSection.classList.add("hidden-by-filter");
-            if (playbookSection) playbookSection.classList.remove("hidden-by-filter");
+            hideSpecial();
+            var target = filter === "playbook" ? playbookSection : scheduleSection;
+            if (target) target.classList.remove("hidden-by-filter");
             return;
           }
-          if (playbookSection) playbookSection.classList.add("hidden-by-filter");
+          hideSpecial();
           if (filter === "all") {
             allSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
             platformSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
@@ -1390,56 +1293,9 @@
         el.innerHTML = s;
       }
 
-      trendChart("trend-ig",
-        [[7, 17989], [9, 17983], [10, 17979], [11, 17978], [12, 17977], [13, 17968], [14, 17971], [15, 17972], [17, 17968], [18, 17969], [19, 17966]],
-        17960, 17996, 19, "Oct 19");
-
-      trendChart("trend-th",
-        [[7, 607], [8, 608], [9, 609], [10, 610], [11, 610], [12, 612], [13, 614], [14, 615], [15, 616], [16, 616], [17, 617], [18, 618], [19, 619]],
-        604, 621, 19, "Oct 19");
-
-      trendChart("trend-tt",
-        [[7, 10004], [8, 10003], [9, 10007], [10, 10007], [11, 10004], [12, 10007], [13, 10007], [14, 10006], [15, 10006], [16, 10009], [17, 10014], [18, 10010], [19, 10011]],
-        10000, 10018, 19, "Oct 19");
-
-      // ---------- YouTube daily NET subscriber change (bars around zero) ----------
-      (function () {
-        var el = document.getElementById("trend-yt");
-        if (!el) return;
-        var data = [[7, 0], [8, 0], [9, 0], [10, 1], [11, 0], [12, -1], [13, -1], [14, 0], [15, -1], [16, -2], [17, -1], [18, 0], [19, 0], [20, 0]];
-        var W = 560, H = 190, padL = 52, padR = 14, padT = 16, padB = 28;
-        var iw = W - padL - padR, ih = H - padT - padB;
-        var vMin = -2.6, vMax = 1.6;
-        function X(day) { return padL + ((day - 7) / 13) * iw; }
-        function Y(v) { return padT + (1 - (v - vMin) / (vMax - vMin)) * ih; }
-        var s = '<svg class="trend-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="YouTube daily net subscriber change">';
-        s += '<rect x="' + X(13.5) + '" y="' + padT + '" width="' + (X(20) + 16 - X(13.5)) + '" height="' + ih + '" fill="rgba(0,194,255,0.07)"/>';
-        s += '<text x="' + (X(13.5) + 6) + '" y="' + (padT + 12) + '" fill="#00c2ff" font-size="10.5" font-weight="600">THIS WEEK</text>';
-        s += '<text x="' + (X(7) + 2) + '" y="' + (padT + 12) + '" fill="#647885" font-size="10.5" font-weight="600">LAST WEEK</text>';
-        [-2, -1, 0, 1].forEach(function (gv) {
-          s += '<line x1="' + padL + '" y1="' + Y(gv) + '" x2="' + (W - padR) + '" y2="' + Y(gv) + '" stroke="' + (gv === 0 ? "#43545f" : "#1d2a35") + '" stroke-width="1"/>';
-          s += '<text x="' + (padL - 6) + '" y="' + (Y(gv) + 4) + '" fill="#647885" font-size="11" text-anchor="end">' + (gv > 0 ? "+" + gv : gv) + '</text>';
-        });
-        s += '<line x1="' + X(13.5) + '" y1="' + padT + '" x2="' + X(13.5) + '" y2="' + (padT + ih) + '" stroke="#00c2ff" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>';
-        [[7, "Oct 7"], [13, "Oct 13"], [20, "Oct 20"]].forEach(function (d) {
-          s += '<text x="' + X(d[0]) + '" y="' + (H - 8) + '" fill="#647885" font-size="11" text-anchor="middle">' + d[1] + '</text>';
-        });
-        var bw = Math.min(22, iw / data.length - 8);
-        data.forEach(function (p) {
-          var cx = X(p[0]), v = p[1];
-          if (v > 0) {
-            s += '<rect x="' + (cx - bw / 2) + '" y="' + Y(v) + '" width="' + bw + '" height="' + (Y(0) - Y(v)) + '" rx="2" fill="#00c2ff"/>';
-            s += '<text x="' + cx + '" y="' + (Y(v) - 5) + '" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">+' + v + '</text>';
-          } else if (v < 0) {
-            s += '<rect x="' + (cx - bw / 2) + '" y="' + Y(0) + '" width="' + bw + '" height="' + (Y(v) - Y(0)) + '" rx="2" fill="#43545f"/>';
-            s += '<text x="' + cx + '" y="' + (Y(v) + 14) + '" fill="#a7b6bf" font-size="11" font-weight="700" text-anchor="middle">' + v + '</text>';
-          } else {
-            s += '<circle cx="' + cx + '" cy="' + Y(0) + '" r="2.4" fill="#647885"/>';
-          }
-        });
-        s += "</svg>";
-        el.innerHTML = s;
-      })();
+      trendChart("trend-combined",
+        [[7, 28600], [9, 28599], [10, 28596], [11, 28592], [12, 28596], [13, 28589], [14, 28592], [15, 28594], [17, 28599], [18, 28597], [19, 28596]],
+        28584, 28606, 19, "Oct 19");
     </script>
   </body>
 </html>
