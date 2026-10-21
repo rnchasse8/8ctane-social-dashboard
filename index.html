@@ -354,7 +354,7 @@
       </section>
 
       <!-- ================= INSTAGRAM ================= -->
-      <section class="block" data-platform="instagram">
+      <section class="block hidden-by-filter" data-platform="instagram">
         <div class="sec-head">
           <h2>Instagram</h2>
           <span class="handle">@8ctanebaseball</span>
@@ -481,7 +481,7 @@
       </section>
 
       <!-- ================= THREADS ================= -->
-      <section class="block" data-platform="threads">
+      <section class="block hidden-by-filter" data-platform="threads">
         <div class="sec-head">
           <h2>Threads</h2>
           <span class="handle">@8ctanebaseball</span>
@@ -604,7 +604,7 @@
       </section>
 
       <!-- ================= YOUTUBE ================= -->
-      <section class="block" data-platform="youtube">
+      <section class="block hidden-by-filter" data-platform="youtube">
         <div class="sec-head">
           <h2>YouTube</h2>
           <span class="handle">8ctane Baseball · @8ctaneBaseball · <a href="https://www.youtube.com/channel/UCvBI-lupgQZSh-gwIR2D_8w" target="_blank" rel="noopener">Channel ↗</a></span>
@@ -736,7 +736,7 @@
       </section>
 
       <!-- ================= TIKTOK ================= -->
-      <section class="block" data-platform="tiktok">
+      <section class="block hidden-by-filter" data-platform="tiktok">
         <div class="sec-head">
           <h2>TikTok</h2>
           <span class="handle">@8ctanebaseball · Analytics window: this week = Oct 13–19 vs last week = Oct 6–12 — TikTok analytics lags ~1 day</span>
@@ -867,7 +867,7 @@
       </section>
 
       <!-- ================= NOT CONNECTED ================= -->
-      <section class="block" data-show="notconnected">
+      <section class="block hidden-by-filter" data-show="notconnected">
         <div class="sec-head">
           <h2>More <span class="accent">Platforms</span></h2>
           <span class="handle">No numbers shown until connected</span>
@@ -1230,10 +1230,12 @@
           }
           hideSpecial();
           if (filter === "all") {
+            // Landing view: summary blocks only — per-platform detail,
+            // the not-connected grid, Playbook and Schedule stay hidden
+            // until their own tab is selected.
             allSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
-            platformSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
-            if (ncSection) ncSection.classList.remove("hidden-by-filter");
-            ncPanels.forEach(function (p) { p.classList.remove("hidden-by-filter"); });
+            platformSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
+            if (ncSection) ncSection.classList.add("hidden-by-filter");
             return;
           }
           allSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
