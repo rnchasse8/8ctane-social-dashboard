@@ -162,6 +162,16 @@
       .nc .status { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--down-text); border: 1px solid var(--down-border); border-radius: 999px; padding: 2px 10px; text-transform: uppercase; letter-spacing: 0.05em; }
       .nc p { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
 
+      /* ---------- Playbook ---------- */
+      .pb-sub { color: var(--muted); font-size: 14px; font-weight: 600; margin: -4px 0 14px; }
+      .pb-block { margin-bottom: 14px; }
+      .pb-block:last-child { margin-bottom: 0; }
+      .pb-block p { margin: 0; font-size: 15px; }
+      .pb-label { color: var(--faint); text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 4px; }
+      .pb-move { background: var(--cyan-dim); border: 1px solid var(--cyan); border-radius: 6px; padding: 12px 14px; }
+      .pb-move .pb-label { color: var(--cyan); }
+      .pb-move p { margin: 0; font-size: 15.5px; font-weight: 600; }
+
       /* ---------- Footnotes ---------- */
       footer.notes { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--faint); font-size: 13px; }
       footer.notes p { margin: 0 0 6px; }
@@ -226,6 +236,7 @@
         <button class="filter-btn" data-filter="youtube" type="button">YouTube</button>
         <button class="filter-btn" data-filter="tiktok" type="button">TikTok</button>
         <button class="filter-btn" data-filter="x" type="button">X / Twitter</button>
+        <button class="filter-btn" data-filter="playbook" type="button">Playbook</button>
       </nav>
 
       <!-- ================= OVERALL DASHBOARD ================= -->
@@ -1173,6 +1184,113 @@
         </div>
       </section>
 
+      <!-- ================= GROWTH PLAYBOOK ================= -->
+      <section class="block hidden-by-filter" data-show="playbook">
+        <div class="sec-head">
+          <h2>Growth <span class="accent">Playbook</span></h2>
+          <span class="handle">How to grow each account — read from this week's numbers</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="callout" style="margin-top:0;">
+            <h3>Transformation stories are the growth engine</h3>
+            <p>The Roche 70→89 mph post was #1 on Instagram (150 likes), #1 on Threads (77 of 153 weekly views) and #1 on TikTok (2,507 views). On YouTube, &ldquo;+10 mph in 1 year&rdquo; pulled 4,085 views, over half that platform's entire prior week. The formula: named athlete + measured before/after + timeframe.</p>
+          </div>
+          <div class="callout" style="margin-top:0;">
+            <h3>The leak is conversion, not reach</h3>
+            <p>51% of Instagram views and 88% of Threads views come from non-followers. Instagram profile visits rose +5.1% and bio link taps +60%, yet Instagram netted −2 followers and YouTube −4. People watch and visit; they just don't follow. No pinned proof post and no follow hook is the likely gap.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Instagram</h3>
+            <div class="pb-sub">@8ctanebaseball · 17,970 followers · net −2 this week</div>
+            <div class="pb-block">
+              <div class="pb-label">What the data says</div>
+              <p>Reach 11,358 (−10%), views 37,529 (−26%), interactions 625 (−45.6%), but profile visits 371 (+5.1%) and bio link taps 8 (+60%). Reels averaged 91.2 likes per post, up from 89.0 last week; the only photo post in two weeks got 8 likes. Zero carousels published in two weeks. Stories were posted on only 1 of 7 days. 51.4% of views came from non-followers. Funnel: 11,358 reached → 371 profile visits (3.3%) → −2 net followers.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Do this</div>
+              <p>Keep the all-Reels feed diet. Pin the Roche transformation reel to the top of the profile. Test 2 carousels this week built from before/after velocity data cards. Post Stories at least 4 days a week (Fun Fact series). End captions with a follow hook tied to a series, e.g. &ldquo;Follow for part 2.&rdquo;</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Stop doing this</div>
+              <p>Standalone single photo posts (8 likes in two weeks). Posting transformation content as one-offs with no series or follow hook.</p>
+            </div>
+            <div class="pb-move">
+              <div class="pb-label">This week's #1 move</div>
+              <p>Pin the Roche reel and launch the transformation series with the next athlete's before/after story.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Threads</h3>
+            <div class="pb-sub">@8ctanebaseball · 619 followers · net +5 (best growth rate, +0.81%)</div>
+            <div class="pb-block">
+              <div class="pb-label">What the data says</div>
+              <p>Views 153, interactions 1. The Roche post alone drew 77 views, half the week's total. 88.2% of views came from non-followers. Zero replies, quotes and reposts in two weeks.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Do this</div>
+              <p>Reply to every comment and mention the same day. Post one native text take per day: a real training number plus a one-line opinion. Quote-post Instagram transformation content with a fresh angle instead of copy-pasting it.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Stop doing this</div>
+              <p>Treating Threads as a repost pipe for Instagram content.</p>
+            </div>
+            <div class="pb-move">
+              <div class="pb-label">This week's #1 move</div>
+              <p>Start one conversation thread per day off a real number from the training floor.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>YouTube</h3>
+            <div class="pb-sub">@8ctaneBaseball · 7,155 subscribers · net −4 this week</div>
+            <div class="pb-block">
+              <div class="pb-label">What the data says</div>
+              <p>Views 5,842 (−25.3%). &ldquo;+10 mph in 1 year&rdquo; (Oct 9) drew 4,085 views, over half of last week's 7,816 total. This week's &ldquo;70mph - 89mph in two years&rdquo; already has 1,103 views on its first day. A generic concept Short drew only 328 views. Zero comments two weeks straight. Net likes were −139 this week: older videos are losing likes faster than new ones gain them.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Do this</div>
+              <p>Make every Short a transformation or a number. Put a question on screen in the last 2 seconds to break the zero-comment streak. Use the title formula &ldquo;X mph → Y mph in Z&rdquo; for transformation Shorts.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Stop doing this</div>
+              <p>Generic drill or concept Shorts with no measured result attached.</p>
+            </div>
+            <div class="pb-move">
+              <div class="pb-label">This week's #1 move</div>
+              <p>Ship one transformation Short using the same title formula as the 4,085-view video.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>TikTok</h3>
+            <div class="pb-sub">@8ctanebaseball · 10,011 followers · net +4 (steadiest platform)</div>
+            <div class="pb-block">
+              <div class="pb-label">What the data says</div>
+              <p>Views ~15,700 (−1.7%), the steadiest numbers of any account. The Roche video was #1 at 2,507 views. Re-running the &ldquo;offseason seriously&rdquo; concept decayed from 5,283 views to 1,414. The account went silent 3 of 7 days (Oct 14, 18, 19). Profile views fell to 137 (−17%) while views held up: the same conversion leak as Instagram.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Do this</div>
+              <p>Post daily and fill the gaps. Open every video with the number or result in the first second. Pin the best transformation video to the profile.</p>
+            </div>
+            <div class="pb-block">
+              <div class="pb-label">Stop doing this</div>
+              <p>Re-running the same concept twice; it decays hard.</p>
+            </div>
+            <div class="pb-move">
+              <div class="pb-label">This week's #1 move</div>
+              <p>Run a 7-day posting streak, transformation-first.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="color:var(--faint);font-size:13px;margin-top:18px;">Advice drawn from this dashboard's own data, refreshed daily. Windows: Oct 14–20 vs Oct 7–13, 2026 (TikTok Oct 13–19 vs Oct 6–12).</p>
+      </section>
+
       <!-- ================= FOOTNOTES ================= -->
       <footer class="notes">
         <p><b>Data source:</b> Pulled Oct 21, 2026 from the verified team accounts only — Instagram @8ctanebaseball and Threads @8ctanebaseball via the Meta connectors, YouTube (8ctane Baseball, @8ctaneBaseball) via YouTube Studio, and TikTok @8ctanebaseball via TikTok Studio/Analytics. No other accounts were used, and no figures are estimated.</p>
@@ -1194,11 +1312,20 @@
         var allSections = document.querySelectorAll('[data-show="all"]');
         var ncSection = document.querySelector('[data-show="notconnected"]');
         var ncPanels = ncSection ? ncSection.querySelectorAll("[data-platform]") : [];
+        var playbookSection = document.querySelector('[data-show="playbook"]');
 
         function apply(filter) {
           buttons.forEach(function (b) {
             b.classList.toggle("active", b.getAttribute("data-filter") === filter);
           });
+          if (filter === "playbook") {
+            allSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
+            platformSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
+            if (ncSection) ncSection.classList.add("hidden-by-filter");
+            if (playbookSection) playbookSection.classList.remove("hidden-by-filter");
+            return;
+          }
+          if (playbookSection) playbookSection.classList.add("hidden-by-filter");
           if (filter === "all") {
             allSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
             platformSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
