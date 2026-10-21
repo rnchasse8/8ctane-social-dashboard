@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>8ctane Baseball — Social Media Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #000000;
+        --panel: #0a0f14;
+        --panel2: #0d141b;
+        --line: #1d2a35;
+        --cyan: #00c2ff;
+        --cyan-dim: rgba(0, 194, 255, 0.12);
+        --white: #ffffff;
+        --muted: #9db2bf;
+        --faint: #647885;
+        --down-border: #54646f;
+        --down-text: #a7b6bf;
+        --gray-bar: #43545f;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--white);
+        font-family: "Barlow", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; }
+      h1, h2, h3 { font-family: "Barlow Condensed", "Barlow", sans-serif; margin: 0; letter-spacing: 0.02em; }
+      a { color: var(--cyan); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      /* ---------- Header ---------- */
+      header.top { border-bottom: 2px solid var(--cyan); padding-bottom: 18px; margin-bottom: 8px; }
+      .brand-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; }
+      .brand-row h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; text-transform: uppercase; line-height: 1; }
+      .brand-row h1 .accent { color: var(--cyan); }
+      .brand-sub { color: var(--muted); font-size: 15px; font-weight: 500; }
+      .meta-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+      .meta-chip {
+        border: 1px solid var(--line); background: var(--panel);
+        padding: 8px 14px; border-radius: 6px; font-size: 14px;
+      }
+      .meta-chip b { color: var(--cyan); font-weight: 600; }
+      .meta-chip .lbl { color: var(--faint); text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; display: block; }
+      .pulled-note { color: var(--faint); font-size: 13px; margin-top: 12px; }
+
+      /* ---------- Filter ---------- */
+      .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 20; }
+      .filter-btn {
+        font-family: "Barlow Condensed", sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.04em;
+        text-transform: uppercase; background: var(--panel); color: var(--muted);
+        border: 1px solid var(--line); border-radius: 6px; padding: 7px 16px; cursor: pointer;
+      }
+      .filter-btn:hover { color: var(--white); border-color: var(--cyan); }
+      .filter-btn.active { background: var(--cyan); color: #00141d; border-color: var(--cyan); }
+      .filter-btn:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
+      /* ---------- Sections ---------- */
+      section.block { margin-top: 38px; }
+      .sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 18px; }
+      .sec-head h2 { font-size: 28px; font-weight: 700; text-transform: uppercase; }
+      .sec-head h2 .accent { color: var(--cyan); }
+      .sec-head .handle { color: var(--muted); font-size: 15px; font-weight: 600; }
+      .sec-head .followers-now { margin-left: auto; color: var(--muted); font-size: 14px; }
+      .sec-head .followers-now b { color: var(--white); font-size: 18px; }
+
+      /* ---------- Scorecards ---------- */
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; }
+      .card .k { color: var(--faint); text-transform: uppercase; font-size: 12px; letter-spacing: 0.09em; font-weight: 600; }
+      .card .v { font-family: "Barlow Condensed", sans-serif; font-size: 40px; font-weight: 700; line-height: 1.05; margin-top: 4px; }
+      .card .v small { font-size: 20px; color: var(--muted); font-weight: 600; }
+      .card .sub { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+      .chip { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 9px; border-radius: 999px; margin-top: 8px; }
+      .chip.up { background: var(--cyan); color: #00141d; }
+      .chip.down { background: transparent; border: 1px solid var(--down-border); color: var(--down-text); }
+      .chip.flat { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+
+      /* ---------- Panels & grids ---------- */
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+      .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+      .panel h3 { font-size: 20px; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+      .panel h3 .accent { color: var(--cyan); }
+      .panel .note { color: var(--faint); font-size: 13px; margin-top: 10px; }
+
+      /* ---------- Bar chart (paired) ---------- */
+      .bars { display: flex; flex-direction: column; gap: 16px; }
+      .bar-group .bar-label { font-size: 14px; font-weight: 600; margin-bottom: 5px; display: flex; justify-content: space-between; gap: 8px; }
+      .bar-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+      .bar-row .who { width: 62px; flex: none; font-size: 12px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.05em; }
+      .bar-track { flex: 1; background: #101a22; border-radius: 4px; height: 18px; overflow: hidden; }
+      .bar-fill { height: 100%; border-radius: 4px; }
+      .bar-fill.tw { background: var(--cyan); }
+      .bar-fill.lw { background: var(--gray-bar); }
+      .bar-val { width: 74px; flex: none; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+      .legend { display: flex; gap: 18px; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+      .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+      .legend .sw.tw { background: var(--cyan); }
+      .legend .sw.lw { background: var(--gray-bar); }
+
+      /* ---------- Funnel ---------- */
+      .funnel { display: flex; flex-direction: column; gap: 8px; }
+      .fstep { background: var(--panel2); border: 1px solid var(--line); border-left: 4px solid var(--cyan); border-radius: 6px; padding: 10px 14px; }
+      .fstep .fk { color: var(--faint); text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.08em; font-weight: 600; }
+      .fstep .fv { font-family: "Barlow Condensed", sans-serif; font-size: 28px; font-weight: 700; line-height: 1.1; }
+      .fstep .fc { color: var(--cyan); font-size: 13.5px; font-weight: 600; }
+      .funnel-vs { color: var(--muted); font-size: 13.5px; margin-top: 10px; }
+
+      /* ---------- Progress / milestones ---------- */
+      .mile { margin-bottom: 18px; }
+      .mile:last-child { margin-bottom: 0; }
+      .mile .mile-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14.5px; }
+      .mile .mile-top b { font-size: 16px; }
+      .mile .away { color: var(--cyan); font-weight: 700; }
+      .track { background: #101a22; border-radius: 999px; height: 14px; margin-top: 7px; overflow: hidden; }
+      .track .fill { background: var(--cyan); height: 100%; border-radius: 999px; }
+      .goal-line { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; margin-top: 6px; }
+      .goal-line b { font-family: "Barlow Condensed", sans-serif; font-size: 22px; }
+      .not-set { display: inline-block; border: 1px dashed var(--down-border); color: var(--down-text); border-radius: 6px; padding: 3px 10px; font-size: 13.5px; font-weight: 600; }
+
+      /* ---------- Tables ---------- */
+      .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+      table { width: 100%; border-collapse: collapse; min-width: 520px; }
+      th, td { padding: 10px 14px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      th:first-child, td:first-child { text-align: left; white-space: normal; }
+      thead th { color: var(--faint); text-transform: uppercase; font-size: 12px; letter-spacing: 0.08em; border-bottom: 1px solid var(--line); font-weight: 600; }
+      tbody td { border-bottom: 1px solid #131e27; font-size: 15px; }
+      tbody tr:last-child td { border-bottom: none; }
+      tr.group-row td { background: var(--panel2); color: var(--cyan); font-family: "Barlow Condensed", sans-serif; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: left; padding-top: 12px; }
+      td .chip { margin-top: 0; font-size: 12px; padding: 1px 8px; }
+      .dash { color: var(--faint); }
+
+      /* ---------- Callout ---------- */
+      .callout { background: var(--cyan-dim); border: 1px solid var(--cyan); border-radius: 8px; padding: 18px 20px; margin-top: 14px; }
+      .callout h3 { color: var(--cyan); font-size: 20px; text-transform: uppercase; margin-bottom: 6px; }
+      .callout p { margin: 0; font-size: 16px; }
+
+      /* ---------- Top posts ---------- */
+      .toppost { border: 1px solid var(--line); background: var(--panel2); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+      .toppost:last-child { margin-bottom: 0; }
+      .toppost .tp-meta { color: var(--faint); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+      .toppost .tp-title { font-size: 17px; font-weight: 600; margin: 3px 0; }
+      .toppost .tp-stats { color: var(--muted); font-size: 14px; }
+
+      /* ---------- Not connected panels ---------- */
+      .nc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+      .nc { border: 1px dashed var(--down-border); border-radius: 8px; padding: 20px; background: #070b0f; }
+      .nc h3 { font-size: 22px; text-transform: uppercase; }
+      .nc .status { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--down-text); border: 1px solid var(--down-border); border-radius: 999px; padding: 2px 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+      .nc p { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+
+      /* ---------- Footnotes ---------- */
+      footer.notes { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--faint); font-size: 13px; }
+      footer.notes p { margin: 0 0 6px; }
+      footer.notes b { color: var(--muted); }
+
+      .hidden-by-filter { display: none !important; }
+
+      /* ---------- Tables reflow to stacked rows on phones (no sideways scroll) ---------- */
+      @media (max-width: 680px) {
+        .tbl-wrap { overflow-x: visible; }
+        table { min-width: 0; }
+        thead { display: none; }
+        tbody tr { display: block; padding: 8px 0; border-bottom: 1px solid #131e27; }
+        tbody tr:last-child { border-bottom: none; }
+        tbody td { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; border-bottom: none; padding: 3px 14px; text-align: right; }
+        tbody td:first-child { text-align: left; font-weight: 600; }
+        tbody td::before { color: var(--faint); text-transform: uppercase; font-size: 11px; letter-spacing: 0.07em; font-weight: 600; text-align: left; }
+        tbody td:first-child::before { content: none; }
+        tr.group-row td { display: block; text-align: left; }
+        .metric-table td:nth-child(2)::before { content: "This week"; }
+        .metric-table td:nth-child(3)::before { content: "Last week"; }
+        .metric-table td:nth-child(4)::before { content: "Change"; }
+        .style-table td:nth-child(2)::before { content: "Posts — this wk"; }
+        .style-table td:nth-child(3)::before { content: "Posts — last wk"; }
+        .style-table td:nth-child(4)::before { content: "Avg likes/views per post"; }
+        .style-table td:nth-child(5)::before { content: "Avg reach"; }
+        .style-table td:nth-child(6)::before { content: "Eng. rate"; }
+        .style-table td:nth-child(7)::before { content: "Shares"; }
+        .style-table td:nth-child(8)::before { content: "Saves"; }
+        .style-table td:nth-child(9)::before { content: "New followers attributed"; }
+      }
+      .trend-svg { width: 100%; height: auto; display: block; }
+      .stat-inline { display: flex; flex-wrap: wrap; gap: 8px 26px; }
+      .stat-inline .si b { font-family: "Barlow Condensed", sans-serif; font-size: 26px; display: block; line-height: 1.1; }
+      .stat-inline .si span { color: var(--faint); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- ================= HEADER ================= -->
+      <header class="top">
+        <div class="brand-row">
+          <h1>8ctane Baseball <span class="accent">Social Dashboard</span></h1>
+          <span class="brand-sub">Week-over-week performance · Team accounts only</span>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-chip"><span class="lbl">Instagram</span><b>@8ctanebaseball</b> · Professional account</div>
+          <div class="meta-chip"><span class="lbl">Threads</span><b>@8ctanebaseball</b> · Verified</div>
+          <div class="meta-chip"><span class="lbl">YouTube</span><b>@8ctaneBaseball</b> · 8ctane Baseball</div>
+          <div class="meta-chip"><span class="lbl">TikTok</span><b>@8ctanebaseball</b></div>
+          <div class="meta-chip"><span class="lbl">This week</span><b>Oct 14–20, 2026</b></div>
+          <div class="meta-chip"><span class="lbl">Last week</span><b>Oct 7–13, 2026</b></div>
+        </div>
+        <p class="pulled-note">All figures below were pulled Oct 20, 2026 from the verified team accounts — Instagram and Threads via the Meta connectors, YouTube via YouTube Studio, TikTok via TikTok Studio/Analytics. TikTok's analytics window runs one day behind: its "this week" is Oct 14–19. X is not connected and shows no numbers.</p>
+      </header>
+
+      <!-- ================= FILTER ================= -->
+      <nav class="filter-bar" aria-label="Platform filter">
+        <button class="filter-btn active" data-filter="all" type="button">All</button>
+        <button class="filter-btn" data-filter="instagram" type="button">Instagram</button>
+        <button class="filter-btn" data-filter="threads" type="button">Threads</button>
+        <button class="filter-btn" data-filter="youtube" type="button">YouTube</button>
+        <button class="filter-btn" data-filter="tiktok" type="button">TikTok</button>
+        <button class="filter-btn" data-filter="x" type="button">X / Twitter</button>
+      </nav>
+
+      <!-- ================= OVERALL DASHBOARD ================= -->
+      <section class="block" data-show="all">
+        <div class="sec-head">
+          <h2>Overall <span class="accent">Dashboard</span></h2>
+          <span class="handle">All four platforms combined · Oct 14–20 vs Oct 7–13, 2026 · TikTok window Oct 14–19</span>
+        </div>
+
+        <div class="callout" style="margin-top:0;margin-bottom:14px;">
+          <h3>The week at a glance</h3>
+          <p>The total audience is <b>35,760 across four platforms</b> and net followers flipped positive — <b>+3 this week vs −8 last week</b> — even though views and engagement volume fell on every platform. TikTok is the biggest audience after Instagram at 10K followers, and it grew alongside Threads while Instagram and YouTube dipped slightly.</p>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="k">Total followers</div>
+            <div class="v">35,760</div>
+            <div class="sub">Instagram 17,974 · TikTok 10,011 · YouTube 7,156 · Threads 619</div>
+          </div>
+          <div class="card">
+            <div class="k">Net new followers — this week</div>
+            <div class="v">+3</div>
+            <div class="sub">TikTok +4 · Threads +4 · Instagram −2 · YouTube −3 · vs −8 last week</div>
+            <span class="chip up">▲ Turned positive</span>
+          </div>
+          <div class="card">
+            <div class="k">Total content views</div>
+            <div class="v">~56,296</div>
+            <div class="sub">vs ~75,401 last week · ~ includes TikTok's rounded view counts (Oct 14–19 window)</div>
+            <span class="chip down">▼ 25.3%</span>
+          </div>
+          <div class="card">
+            <div class="k">Total interactions</div>
+            <div class="v">1,125</div>
+            <div class="sub">vs 1,698 last week · Instagram + Threads + TikTok — YouTube excluded (Studio reports likes only as a net change)</div>
+            <span class="chip down">▼ 33.7%</span>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-top:12px;">
+          <div class="card">
+            <div class="k">Accounts reached</div>
+            <div class="v">11,358</div>
+            <div class="sub">Instagram only — the other platforms do not return a reach figure · vs 12,626 last week</div>
+            <span class="chip down">▼ 10.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Engaged accounts</div>
+            <div class="v">440</div>
+            <div class="sub">Instagram · vs 937 last week</div>
+            <span class="chip down">▼ 53.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Total likes</div>
+            <div class="v">980</div>
+            <div class="sub">TikTok 466 · Instagram 513 · Threads 1 · vs 1,481 last week</div>
+            <span class="chip down">▼ 33.8%</span>
+          </div>
+          <div class="card">
+            <div class="k">Posts published</div>
+            <div class="v">20</div>
+            <div class="sub">Instagram 5 feed + 3 stories · Threads 5 · YouTube 3 · TikTok 4 · vs 11 last week</div>
+            <span class="chip up">▲ +9 posts</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>The bright spots — <span class="accent">interest &amp; growth</span></h3>
+            <div class="stat-inline">
+              <div class="si"><b>371</b><span>Profile visits (IG)</span></div>
+              <div class="si"><b style="color:var(--cyan);">+5.1%</b><span>vs 353 last week</span></div>
+              <div class="si"><b>8</b><span>Bio link taps (IG)</span></div>
+              <div class="si"><b style="color:var(--cyan);">+60.0%</b><span>vs 5 last week</span></div>
+            </div>
+            <div class="stat-inline" style="margin-top:14px;">
+              <div class="si"><b>25</b><span>TikTok shares</span></div>
+              <div class="si"><b style="color:var(--cyan);">+31.6%</b><span>per TikTok's own period compare</span></div>
+              <div class="si"><b>+4</b><span>TikTok net followers</span></div>
+              <div class="si"><b>+4</b><span>Threads net followers</span></div>
+            </div>
+            <p class="note">Fewer people saw the content, but more of them came to the profile and tapped through — and TikTok and Threads tied for the best follower growth of the week at +4 each.</p>
+          </div>
+          <div class="panel">
+            <h3>Top content — <span class="accent">overall</span></h3>
+            <div class="toppost">
+              <div class="tp-meta">YouTube · Short · Oct 17</div>
+              <div class="tp-title">Sneak Peak at Hitting Program with @8ctaneBaseball</div>
+              <div class="tp-stats">1,429 views · 14 likes — the week's top new post on any platform · <a href="https://www.youtube.com/channel/UCvBI-lupgQZSh-gwIR2D_8w" target="_blank" rel="noopener">Channel ↗</a></div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">TikTok · Oct 17</div>
+              <div class="tp-title">Take this offseason seriously. Train with @8ctanebaseball…</div>
+              <div class="tp-stats">1,394 views · 53 likes — TikTok's top new video of the week</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Instagram · Reel · Oct 16</div>
+              <div class="tp-title">New @8ctanebaseball Coaching Portal</div>
+              <div class="tp-stats">131 likes — Instagram's biggest post of the week · <a href="https://www.instagram.com/reel/DektNV7xALT/" target="_blank" rel="noopener">View reel ↗</a></div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Threads · Oct 14</div>
+              <div class="tp-title">Take a look at a one on one pitching lesson</div>
+              <div class="tp-stats">47 views · 1 like — Threads' top post of the week · <a href="https://www.threads.net/@8ctanebaseball/post/DefVc52Erjj" target="_blank" rel="noopener">View post ↗</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= GROWTH ================= -->
+      <section class="block" data-show="all">
+        <div class="sec-head">
+          <h2>Growth <span class="accent">Engine</span></h2>
+          <span class="handle">Followers first</span>
+        </div>
+
+        <div class="cards" style="margin-bottom:12px;">
+          <div class="card">
+            <div class="k">Net new followers — combined</div>
+            <div class="v">+3 <small>this week</small></div>
+            <div class="sub">Last week: −8 · Growth rate +0.01% on the 35,760 base (last: −0.02%)</div>
+            <span class="chip up">▲ Turned positive</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new — TikTok</div>
+            <div class="v">+4</div>
+            <div class="sub">Last week: +1 · Followers now 10,011 (Oct 19)</div>
+            <span class="chip up">▲ Best week of the four</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new — Threads</div>
+            <div class="v">+4</div>
+            <div class="sub">Last week: +10 · Growth rate +0.65%</div>
+            <span class="chip down">▼ 60.0% vs last week</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new — Instagram</div>
+            <div class="v">−2</div>
+            <div class="sub">Last week: −18 · Growth rate −0.01% (last: −0.10%)</div>
+            <span class="chip up">▲ Loss narrowed</span>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-bottom:12px;">
+          <div class="card">
+            <div class="k">Net new — YouTube</div>
+            <div class="v">−3</div>
+            <div class="sub">Last week: −1 · Subscribers now 7,156</div>
+            <span class="chip down">▼ 2 more than last week</span>
+          </div>
+          <div class="card">
+            <div class="k">Reach from non-followers</div>
+            <div class="v">51.4%<small> IG views</small></div>
+            <div class="sub">Threads views from non-followers: 82.5% (last: 78.0%) · IG last week: 51.9%</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3>Daily followers — <span class="accent">Instagram</span></h3>
+            <div id="trend-ig"></div>
+            <p class="note">Oct 7–19, 2026. Meta did not return Oct 8 or Oct 16 — the line connects across those gaps. Profile now reads 17,974.</p>
+          </div>
+          <div class="panel">
+            <h3>Daily followers — <span class="accent">Threads</span></h3>
+            <div id="trend-th"></div>
+            <p class="note">Oct 7–18, 2026 (latest Meta returned). Profile now reads 619.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Daily followers — <span class="accent">TikTok</span></h3>
+            <div id="trend-tt"></div>
+            <p class="note">Oct 7–19, 2026 — TikTok Analytics has no Oct 20 data yet. Total now reads 10,011.</p>
+          </div>
+          <div class="panel">
+            <h3>Daily net subscribers — <span class="accent">YouTube</span></h3>
+            <div id="trend-yt"></div>
+            <p class="note">Daily net change (gained minus lost) from YouTube Studio — the channel ended the two weeks at 7,156 subscribers, net −4 across both windows (−1 last week, −3 this week).</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Instagram <span class="accent">Funnel</span></h3>
+            <div class="funnel">
+              <div class="fstep" style="width:100%;">
+                <div class="fk">Accounts reached</div>
+                <div class="fv">11,358</div>
+              </div>
+              <div class="fstep" style="width:72%;">
+                <div class="fk">Profile visits</div>
+                <div class="fv">371</div>
+                <div class="fc">3.3% of reached accounts visited the profile</div>
+              </div>
+              <div class="fstep" style="width:52%;">
+                <div class="fk">Net new followers</div>
+                <div class="fv">−2</div>
+                <div class="fc">Visits did not convert into net growth this week</div>
+              </div>
+            </div>
+            <p class="funnel-vs">Last week: 12,626 reached → 353 visits (2.8%) → −18 net new. Visit conversion improved (2.8% → 3.3%) even as reach fell.</p>
+            <p class="note">Threads funnel unavailable — Meta's Threads insights do not return accounts reached or profile visits.</p>
+          </div>
+          <div>
+            <div class="panel" style="margin-bottom:12px;">
+              <h3>Next follower <span class="accent">milestones</span></h3>
+              <div class="mile">
+                <div class="mile-top"><span><b>Instagram</b> → 18,000</span><span class="away">26 away · 99.9%</span></div>
+                <div class="track"><div class="fill" style="width:99.9%;"></div></div>
+              </div>
+              <div class="mile">
+                <div class="mile-top"><span><b>Threads</b> → 650</span><span class="away">31 away · 95.2%</span></div>
+                <div class="track"><div class="fill" style="width:95.2%;"></div></div>
+              </div>
+              <div class="mile">
+                <div class="mile-top"><span><b>TikTok</b> → 11,000</span><span class="away">989 away · 91.0%</span></div>
+                <div class="track"><div class="fill" style="width:91.0%;"></div></div>
+              </div>
+              <div class="mile">
+                <div class="mile-top"><span><b>YouTube</b> → 8,000</span><span class="away">844 away · 89.5%</span></div>
+                <div class="track"><div class="fill" style="width:89.5%;"></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Weekly follower <span class="accent">goal tracker</span></h3>
+              <div class="goal-line">
+                <span class="si"><span style="color:var(--faint);font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600;">Goal</span><br /><span class="not-set">Not set yet</span></span>
+              </div>
+              <div class="stat-inline" style="margin-top:12px;">
+                <div class="si"><b style="color:var(--cyan);">+3</b><span>Actual net, all platforms — this week</span></div>
+                <div class="si"><b>−8</b><span>Actual net, all platforms — last week</span></div>
+              </div>
+              <p class="note">No weekly follower target has been set for the team accounts yet, so no goal progress is shown.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>TikTok <span class="accent">Funnel</span></h3>
+            <div class="funnel">
+              <div class="fstep" style="width:100%;">
+                <div class="fk">Video views (Oct 14–19)</div>
+                <div class="fv">~13.7K</div>
+              </div>
+              <div class="fstep" style="width:72%;">
+                <div class="fk">Profile views</div>
+                <div class="fv">119</div>
+                <div class="fc">0.9% of video views reached the profile</div>
+              </div>
+              <div class="fstep" style="width:52%;">
+                <div class="fk">Net new followers</div>
+                <div class="fv">+4</div>
+                <div class="fc">Best net growth of any platform this week (tied with Threads)</div>
+              </div>
+            </div>
+            <p class="funnel-vs">Last week: ~16.7K video views → 163 profile views → +1 net new.</p>
+          </div>
+          <div class="panel">
+            <h3>YouTube <span class="accent">Conversion</span></h3>
+            <div class="stat-inline">
+              <div class="si"><b>4,987</b><span>Views — this week</span></div>
+              <div class="si"><b>19.1 hrs</b><span>Watch time</span></div>
+              <div class="si"><b>−3</b><span>Net subscribers</span></div>
+            </div>
+            <p class="note" style="margin-top:14px;">Views did not convert this week: 4,987 views ended at −3 net subscribers (last week: 7,816 views → −1). YouTube Studio does not return a profile-visit step, so there is no middle funnel stage to show.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= COMBINED WEEK VS WEEK ================= -->
+      <section class="block" data-show="all">
+        <div class="sec-head">
+          <h2>Week vs <span class="accent">Week</span></h2>
+          <span class="handle">Oct 14–20 vs Oct 7–13, 2026</span>
+        </div>
+        <div class="panel">
+          <div class="legend">
+            <span><span class="sw tw"></span>This week (Oct 14–20)</span>
+            <span><span class="sw lw"></span>Last week (Oct 7–13)</span>
+          </div>
+          <div class="bars">
+            <div class="bar-group">
+              <div class="bar-label"><span>Content views (all four platforms)</span></div>
+              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:74.7%;"></div></div><span class="bar-val">~56,296</span></div>
+              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">~75,401</span></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Total interactions (IG + Threads + TikTok)</span></div>
+              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:66.3%;"></div></div><span class="bar-val">1,125</span></div>
+              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">1,698</span></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Accounts reached (Instagram)</span></div>
+              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:90.0%;"></div></div><span class="bar-val">11,358</span></div>
+              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">12,626</span></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Posts published (all four platforms)</span></div>
+              <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">20</span></div>
+              <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:55.0%;"></div></div><span class="bar-val">11</span></div>
+            </div>
+          </div>
+          <p class="note">Bars are scaled within each metric pair. View totals include TikTok's rounded counts and its Oct 14–19 window. Interactions exclude YouTube — Studio reports likes only as a net change. Publishing volume nearly doubled while views and interactions fell — output is up, per-post pull is down.</p>
+        </div>
+      </section>
+
+      <!-- ================= POST STYLE PERFORMANCE ================= -->
+      <section class="block" data-show="all">
+        <div class="sec-head">
+          <h2>Post Style <span class="accent">Performance</span></h2>
+          <span class="handle">This week primary · Oct 14–20, 2026</span>
+        </div>
+        <div class="tbl-wrap">
+          <table class="style-table">
+            <thead>
+              <tr>
+                <th>Style</th>
+                <th>Posts — this wk</th>
+                <th>Posts — last wk</th>
+                <th>Avg likes / views per post</th>
+                <th>Avg reach</th>
+                <th>Eng. rate</th>
+                <th>Shares</th>
+                <th>Saves</th>
+                <th>New followers attributed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Reels / Video</b> (Instagram)</td>
+                <td>5</td>
+                <td>2</td>
+                <td>61.8 likes <span class="dash">(last wk 88.5)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Carousel</b> (Instagram)</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Single Photo</b> (Instagram)</td>
+                <td>0</td>
+                <td>1</td>
+                <td class="dash">last wk: 7 likes on the one post</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Stories</b> (Instagram)</td>
+                <td>3 <span class="dash">(Oct 20)</span></td>
+                <td class="dash">—</td>
+                <td>1 story reply <span class="dash">(last wk 0)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Text / Threads posts</b></td>
+                <td>5</td>
+                <td>3</td>
+                <td>17.4 views <span class="dash">(last wk 51.7)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Shorts / Video</b> (YouTube)</td>
+                <td>3</td>
+                <td>3</td>
+                <td>Window views 4,987 <span class="dash">(last wk 7,816 — includes views of older videos, not a per-post average)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td>5 <span class="dash">(last wk 9)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+              <tr>
+                <td><b>Video</b> (TikTok)</td>
+                <td>4</td>
+                <td>2</td>
+                <td>Window views 13.7K <span class="dash">(last wk 16.7K — includes views of older videos, not a per-post average)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+                <td>25 <span class="dash">(last wk 21)</span></td>
+                <td class="dash">—</td>
+                <td class="dash">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">Meta's connectors do not return average reach, engagement rate, shares, saves, or attributed new followers broken out by post style — those cells show — rather than an estimate. Last-week story count was not returned. YouTube and TikTok rows use window totals only: their view counts include views of older videos, so no per-post averages are shown for them.</p>
+        <div class="callout">
+          <h3>What's working</h3>
+          <p>Short-form video is the entire engine on all four platforms — every feed post published this week was video. The single biggest new-post performer was YouTube's Oct 17 hitting-program Short (1,429 views), with TikTok's Oct 17 video right behind it (1,394 views). Last week's standouts were video too, and bigger: YouTube's "+10 mph in 1 year" pulled 4,085 views and TikTok's Oct 11 video 5,283. On Instagram, Reels were 100% of the feed and hold the top post (Coaching Portal reel, Oct 16, 131 likes); the only photo post pulled 7 likes. Threads posted more (5 vs 3) but views per post fell from 51.7 to 17.4.</p>
+        </div>
+      </section>
+
+      <!-- ================= INSTAGRAM ================= -->
+      <section class="block" data-platform="instagram">
+        <div class="sec-head">
+          <h2>Instagram</h2>
+          <span class="handle">@8ctanebaseball</span>
+          <span class="followers-now">Followers now: <b>17,974</b></span>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="k">Accounts reached</div>
+            <div class="v">11,358</div>
+            <div class="sub">vs 12,626 last week</div>
+            <span class="chip down">▼ 10.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Content views</div>
+            <div class="v">37,529</div>
+            <div class="sub">vs 50,703 last week · 51.4% from non-followers</div>
+            <span class="chip down">▼ 26.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Total interactions</div>
+            <div class="v">625</div>
+            <div class="sub">vs 1,149 last week · Engagement rate 5.5% (last: 9.1%)</div>
+            <span class="chip down">▼ 45.6%</span>
+          </div>
+          <div class="card">
+            <div class="k">Profile visits</div>
+            <div class="v">371</div>
+            <div class="sub">vs 353 last week · Bio link taps 8 (last: 5)</div>
+            <span class="chip up">▲ 5.1%</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new followers</div>
+            <div class="v">−2</div>
+            <div class="sub">vs −18 last week · Growth rate −0.01% (last: −0.10%)</div>
+            <span class="chip up">▲ Loss narrowed</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Week vs week — <span class="accent">Instagram</span></h3>
+            <div class="legend">
+              <span><span class="sw tw"></span>This week</span>
+              <span><span class="sw lw"></span>Last week</span>
+            </div>
+            <div class="bars">
+              <div class="bar-group">
+                <div class="bar-label"><span>Likes</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:53.0%;"></div></div><span class="bar-val">513</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">968</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Engaged accounts</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:47.0%;"></div></div><span class="bar-val">440</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">937</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Viewers</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:83.6%;"></div></div><span class="bar-val">10,609</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">12,690</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Bio link taps</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">8</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:62.5%;"></div></div><span class="bar-val">5</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Top posts — <span class="accent">Instagram</span></h3>
+            <div class="toppost">
+              <div class="tp-meta">Top this week · Reel · Oct 16</div>
+              <div class="tp-title">New @8ctanebaseball Coaching Portal</div>
+              <div class="tp-stats">131 likes · <a href="https://www.instagram.com/reel/DektNV7xALT/" target="_blank" rel="noopener">View reel ↗</a></div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Top last week · Reel · Oct 11</div>
+              <div class="tp-title">Take this offseason seriously</div>
+              <div class="tp-stats">118 likes · 1 comment · <a href="https://www.instagram.com/reel/DeW_HTYxlwa/" target="_blank" rel="noopener">View reel ↗</a></div>
+            </div>
+            <p class="note">This week: 5 feed posts published, all Reels, plus 3 Stories on Oct 20. Last week: 3 feed posts (2 Reels, 1 Photo).</p>
+          </div>
+        </div>
+
+        <div class="tbl-wrap" style="margin-top:12px;">
+          <table class="metric-table">
+            <thead>
+              <tr><th>Metric</th><th>This week</th><th>Last week</th><th>Change</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Engagement</td></tr>
+              <tr><td>Likes</td><td>513</td><td>968</td><td><span class="chip down">▼ 47.0%</span></td></tr>
+              <tr><td>Comments</td><td>6</td><td>15</td><td><span class="chip down">▼ 60.0%</span></td></tr>
+              <tr><td>Shares</td><td>36</td><td>66</td><td><span class="chip down">▼ 45.5%</span></td></tr>
+              <tr><td>Saves</td><td>22</td><td>29</td><td><span class="chip down">▼ 24.1%</span></td></tr>
+              <tr><td>Story replies</td><td>1</td><td>0</td><td><span class="chip up">▲ +1</span></td></tr>
+              <tr><td>Total interactions</td><td>625</td><td>1,149</td><td><span class="chip down">▼ 45.6%</span></td></tr>
+              <tr><td>Engaged accounts</td><td>440</td><td>937</td><td><span class="chip down">▼ 53.0%</span></td></tr>
+              <tr><td>Engagement rate</td><td>5.5%</td><td>9.1%</td><td><span class="chip down">▼ 3.6 pts</span></td></tr>
+              <tr class="group-row"><td colspan="4">Growth + Reach</td></tr>
+              <tr><td>Followers (now)</td><td>17,974</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Net new followers</td><td>−2</td><td>−18</td><td><span class="chip up">▲ +16</span></td></tr>
+              <tr><td>Follower growth rate</td><td>−0.01%</td><td>−0.10%</td><td><span class="chip up">▲ 0.09 pts</span></td></tr>
+              <tr><td>Accounts reached</td><td>11,358</td><td>12,626</td><td><span class="chip down">▼ 10.0%</span></td></tr>
+              <tr><td>Viewers</td><td>10,609</td><td>12,690</td><td><span class="chip down">▼ 16.4%</span></td></tr>
+              <tr><td>Content views</td><td>37,529</td><td>50,703</td><td><span class="chip down">▼ 26.0%</span></td></tr>
+              <tr><td>Views from non-followers</td><td>51.4%</td><td>51.9%</td><td><span class="chip down">▼ 0.5 pts</span></td></tr>
+              <tr><td>Profile visits</td><td>371</td><td>353</td><td><span class="chip up">▲ 5.1%</span></td></tr>
+              <tr><td>Bio link taps</td><td>8</td><td>5</td><td><span class="chip up">▲ 60.0%</span></td></tr>
+              <tr class="group-row"><td colspan="4">Content + Video</td></tr>
+              <tr><td>Feed posts published</td><td>5 (all Reels)</td><td>3 (2 Reels, 1 Photo)</td><td><span class="chip up">▲ +2</span></td></tr>
+              <tr><td>Stories published</td><td>3 (Oct 20)</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Top post likes</td><td>131 (Reel, Oct 16)</td><td>118 (Reel, Oct 11)</td><td><span class="chip up">▲ 11.0%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= THREADS ================= -->
+      <section class="block" data-platform="threads">
+        <div class="sec-head">
+          <h2>Threads</h2>
+          <span class="handle">@8ctanebaseball</span>
+          <span class="followers-now">Followers now: <b>619</b></span>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="k">Views</div>
+            <div class="v">80</div>
+            <div class="sub">vs 182 last week · 82.5% from non-followers (last: 78.0%)</div>
+            <span class="chip down">▼ 56.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new followers</div>
+            <div class="v">+4</div>
+            <div class="sub">vs +10 last week · Growth rate +0.65%</div>
+            <span class="chip down">▼ 60.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Total interactions</div>
+            <div class="v">1</div>
+            <div class="sub">vs 0 last week · Engagement rate 1.25% (last: 0%)</div>
+            <span class="chip up">▲ +1</span>
+          </div>
+          <div class="card">
+            <div class="k">Posts published</div>
+            <div class="v">5</div>
+            <div class="sub">vs 3 last week · Avg 17.4 views/post (last: 51.7)</div>
+            <span class="chip up">▲ +2 posts</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Week vs week — <span class="accent">Threads</span></h3>
+            <div class="legend">
+              <span><span class="sw tw"></span>This week</span>
+              <span><span class="sw lw"></span>Last week</span>
+            </div>
+            <div class="bars">
+              <div class="bar-group">
+                <div class="bar-label"><span>Views</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:44.0%;"></div></div><span class="bar-val">80</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">182</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Net new followers</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:40.0%;"></div></div><span class="bar-val">+4</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">+10</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Posts published</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">5</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:60.0%;"></div></div><span class="bar-val">3</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Likes</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">1</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:0%;"></div></div><span class="bar-val">0</span></div>
+              </div>
+            </div>
+            <p class="note">Threads is the only account growing — +4 net this week — but reach per post dropped sharply as posting volume rose.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Top posts — <span class="accent">Threads</span></h3>
+            <div class="toppost">
+              <div class="tp-meta">Top this week · Oct 14</div>
+              <div class="tp-title">Take a look at a one on one pitching lesson</div>
+              <div class="tp-stats">47 views · 1 like · <a href="https://www.threads.net/@8ctanebaseball/post/DefVc52Erjj" target="_blank" rel="noopener">View post ↗</a></div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Top last week · Oct 9</div>
+              <div class="tp-title">+10 mph in 1 year — Max Williams</div>
+              <div class="tp-stats">71 views · <a href="https://www.threads.net/@8ctanebaseball/post/DeSI1HlEVUd" target="_blank" rel="noopener">View post ↗</a></div>
+            </div>
+            <p class="note">Player-progress content ("+10 mph in 1 year") outperformed the lesson post on views despite fewer posts that week.</p>
+          </div>
+        </div>
+
+        <div class="tbl-wrap" style="margin-top:12px;">
+          <table class="metric-table">
+            <thead>
+              <tr><th>Metric</th><th>This week</th><th>Last week</th><th>Change</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Engagement</td></tr>
+              <tr><td>Likes</td><td>1</td><td>0</td><td><span class="chip up">▲ +1</span></td></tr>
+              <tr><td>Replies</td><td>0</td><td>0</td><td><span class="chip flat">— 0</span></td></tr>
+              <tr><td>Quotes</td><td>0</td><td>0</td><td><span class="chip flat">— 0</span></td></tr>
+              <tr><td>Reposts</td><td>0</td><td>0</td><td><span class="chip flat">— 0</span></td></tr>
+              <tr><td>Total interactions</td><td>1</td><td>0</td><td><span class="chip up">▲ +1</span></td></tr>
+              <tr><td>Engaged accounts</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Shares</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Saves</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Engagement rate</td><td>1.25%</td><td>0%</td><td><span class="chip up">▲ 1.25 pts</span></td></tr>
+              <tr class="group-row"><td colspan="4">Growth + Reach</td></tr>
+              <tr><td>Followers (now)</td><td>619</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Net new followers</td><td>+4</td><td>+10</td><td><span class="chip down">▼ 60.0%</span></td></tr>
+              <tr><td>Follower growth rate</td><td>+0.65%</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Views</td><td>80</td><td>182</td><td><span class="chip down">▼ 56.0%</span></td></tr>
+              <tr><td>Views from non-followers</td><td>82.5%</td><td>78.0%</td><td><span class="chip up">▲ 4.5 pts</span></td></tr>
+              <tr><td>Accounts reached</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Profile visits</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Bio link taps</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr class="group-row"><td colspan="4">Content</td></tr>
+              <tr><td>Posts published</td><td>5</td><td>3</td><td><span class="chip up">▲ +2</span></td></tr>
+              <tr><td>Avg views per post</td><td>17.4</td><td>51.7</td><td><span class="chip down">▼ 66.3%</span></td></tr>
+              <tr><td>Top post views</td><td>47 (Oct 14)</td><td>71 (Oct 9)</td><td><span class="chip down">▼ 33.8%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">Cells marked — were not returned by Meta's Threads insights for @8ctanebaseball (accounts reached, engaged accounts, profile visits, bio link taps, saves, shares).</p>
+      </section>
+
+      <!-- ================= YOUTUBE ================= -->
+      <section class="block" data-platform="youtube">
+        <div class="sec-head">
+          <h2>YouTube</h2>
+          <span class="handle">8ctane Baseball · @8ctaneBaseball · <a href="https://www.youtube.com/channel/UCvBI-lupgQZSh-gwIR2D_8w" target="_blank" rel="noopener">Channel ↗</a></span>
+          <span class="followers-now">Subscribers now: <b>7,156</b> · 286 videos</span>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="k">Views</div>
+            <div class="v">4,987</div>
+            <div class="sub">vs 7,816 last week</div>
+            <span class="chip down">▼ 36.2%</span>
+          </div>
+          <div class="card">
+            <div class="k">Watch time</div>
+            <div class="v">19.1 <small>hrs</small></div>
+            <div class="sub">vs 29.5 hrs last week</div>
+            <span class="chip down">▼ 35.3%</span>
+          </div>
+          <div class="card">
+            <div class="k">Net subscribers</div>
+            <div class="v">−3</div>
+            <div class="sub">vs −1 last week</div>
+            <span class="chip down">▼ 2 more lost</span>
+          </div>
+          <div class="card">
+            <div class="k">Shares</div>
+            <div class="v">5</div>
+            <div class="sub">vs 9 last week</div>
+            <span class="chip down">▼ 44.4%</span>
+          </div>
+          <div class="card">
+            <div class="k">Comments added</div>
+            <div class="v">0</div>
+            <div class="sub">vs 0 last week</div>
+            <span class="chip flat">— No change</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Week vs week — <span class="accent">YouTube</span></h3>
+            <div class="legend">
+              <span><span class="sw tw"></span>This week</span>
+              <span><span class="sw lw"></span>Last week</span>
+            </div>
+            <div class="bars">
+              <div class="bar-group">
+                <div class="bar-label"><span>Views</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:63.8%;"></div></div><span class="bar-val">4,987</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">7,816</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Watch time (hrs)</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:64.7%;"></div></div><span class="bar-val">19.1</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">29.5</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Shares</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:55.6%;"></div></div><span class="bar-val">5</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">9</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Videos published</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">3</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">3</span></div>
+              </div>
+            </div>
+            <p class="note">Same output, less pull: 3 Shorts published both weeks, but views fell by a third — last week's "+10 mph in 1 year" (4,085 views on its own) had no equivalent this week.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Top videos — <span class="accent">YouTube</span></h3>
+            <div class="toppost">
+              <div class="tp-meta">Top this week · Short · Oct 17</div>
+              <div class="tp-title">Sneak Peak at Hitting Program with @8ctaneBaseball</div>
+              <div class="tp-stats">1,429 views · 14 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">This week · Short · Oct 16</div>
+              <div class="tp-title">@8ctaneBaseball Pushing the Future</div>
+              <div class="tp-stats">1,125 views · 16 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">This week · Short · Oct 20</div>
+              <div class="tp-title">70mph - 89mph in two years</div>
+              <div class="tp-stats">606 views · 1 like</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Top last week · Oct 9</div>
+              <div class="tp-title">+10 mph in 1 year</div>
+              <div class="tp-stats">4,085 views · 21 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Last week · Oct 11</div>
+              <div class="tp-title">Hitting Lesson @8ctaneBaseball</div>
+              <div class="tp-stats">1,926 views · 22 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Last week · Oct 10</div>
+              <div class="tp-title">Changeup vs Fastball: The Pitch the Rays Can't Stop Throwing</div>
+              <div class="tp-stats">328 views · 3 likes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tbl-wrap" style="margin-top:12px;">
+          <table class="metric-table">
+            <thead>
+              <tr><th>Metric</th><th>This week</th><th>Last week</th><th>Change</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Engagement</td></tr>
+              <tr><td>Shares</td><td>5</td><td>9</td><td><span class="chip down">▼ 44.4%</span></td></tr>
+              <tr><td>Comments added</td><td>0</td><td>0</td><td><span class="chip flat">— 0</span></td></tr>
+              <tr><td>Net likes change</td><td>−142</td><td>+27</td><td><span class="chip down">▼ Swung negative</span></td></tr>
+              <tr class="group-row"><td colspan="4">Growth + Reach</td></tr>
+              <tr><td>Subscribers (now)</td><td>7,156</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Net subscribers</td><td>−3</td><td>−1</td><td><span class="chip down">▼ −2</span></td></tr>
+              <tr><td>Views</td><td>4,987</td><td>7,816</td><td><span class="chip down">▼ 36.2%</span></td></tr>
+              <tr><td>Watch time</td><td>19.1 hrs</td><td>29.5 hrs</td><td><span class="chip down">▼ 35.3%</span></td></tr>
+              <tr class="group-row"><td colspan="4">Content + Video</td></tr>
+              <tr><td>Videos published</td><td>3 (all Shorts)</td><td>3 (2 Shorts, 1 Video)</td><td><span class="chip flat">— Same count</span></td></tr>
+              <tr><td>Top video views</td><td>1,429 (Short, Oct 17)</td><td>4,085 (Oct 9)</td><td><span class="chip down">▼ 65.0%</span></td></tr>
+              <tr><td>Total videos on channel</td><td>286</td><td class="dash">—</td><td class="dash">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">YouTube Studio reports Likes as a net change (added minus removed): −142 this week vs +27 last week — shown in the table as Net Likes Change, not gross likes. Oct 20 data was still processing in Studio at pull time, so this week's figures may tick up slightly.</p>
+      </section>
+
+      <!-- ================= TIKTOK ================= -->
+      <section class="block" data-platform="tiktok">
+        <div class="sec-head">
+          <h2>TikTok</h2>
+          <span class="handle">@8ctanebaseball · Analytics window: this week = Oct 14–19 (6 days) vs last week = Oct 7–13 (7 days) — TikTok has no Oct 20 data yet</span>
+          <span class="followers-now">Followers now: <b>10,011</b> (Oct 19) · 321 posts</span>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="k">Video views</div>
+            <div class="v">13.7K</div>
+            <div class="sub">vs 16.7K last week · TikTok displays view counts rounded</div>
+            <span class="chip down">▼ 11.2% (TikTok's reported change)</span>
+          </div>
+          <div class="card">
+            <div class="k">Profile views</div>
+            <div class="v">119</div>
+            <div class="sub">vs 163 last week</div>
+            <span class="chip down">▼ 27.0%</span>
+          </div>
+          <div class="card">
+            <div class="k">Likes</div>
+            <div class="v">466</div>
+            <div class="sub">vs 513 last week</div>
+            <span class="chip down">▼ 9.2%</span>
+          </div>
+          <div class="card">
+            <div class="k">Total interactions</div>
+            <div class="v">499</div>
+            <div class="sub">Likes + comments + shares · vs 549 last week</div>
+            <span class="chip down">▼ 9.1%</span>
+          </div>
+          <div class="card">
+            <div class="k">Net new followers</div>
+            <div class="v">+4</div>
+            <div class="sub">vs +1 last week · Best of the four platforms (tied with Threads)</div>
+            <span class="chip up">▲ +3 vs last week</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="panel">
+            <h3>Week vs week — <span class="accent">TikTok</span></h3>
+            <div class="legend">
+              <span><span class="sw tw"></span>This week (Oct 14–19)</span>
+              <span><span class="sw lw"></span>Last week (Oct 7–13)</span>
+            </div>
+            <div class="bars">
+              <div class="bar-group">
+                <div class="bar-label"><span>Profile views</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:73.0%;"></div></div><span class="bar-val">119</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">163</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Likes</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:90.8%;"></div></div><span class="bar-val">466</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">513</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Comments</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:53.3%;"></div></div><span class="bar-val">8</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:100%;"></div></div><span class="bar-val">15</span></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label"><span>Shares</span></div>
+                <div class="bar-row"><span class="who">This wk</span><div class="bar-track"><div class="bar-fill tw" style="width:100%;"></div></div><span class="bar-val">25</span></div>
+                <div class="bar-row"><span class="who">Last wk</span><div class="bar-track"><div class="bar-fill lw" style="width:84.0%;"></div></div><span class="bar-val">21</span></div>
+              </div>
+            </div>
+            <p class="note">Shares were the one engagement metric that rose (+19.0% window vs window; +31.6% on TikTok's own period compare) — and TikTok still added the most followers of any platform this week.</p>
+          </div>
+
+          <div class="panel">
+            <h3>Top videos — <span class="accent">TikTok</span></h3>
+            <div class="toppost">
+              <div class="tp-meta">Top this week · Oct 17</div>
+              <div class="tp-title">Take this offseason seriously. Train with @8ctanebaseball…</div>
+              <div class="tp-stats">1,394 views · 53 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">This week · Oct 15</div>
+              <div class="tp-title">We offer in-person and remote Pitching &amp; Hitting programs…</div>
+              <div class="tp-stats">1,273 views · 29 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">This week · Oct 16</div>
+              <div class="tp-title">New @8ctanebaseball Coaching Portal…</div>
+              <div class="tp-stats">1,231 views · 51 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Top last week · Oct 11</div>
+              <div class="tp-title">Take this offseason seriously…</div>
+              <div class="tp-stats">5,283 views · 98 likes</div>
+            </div>
+            <div class="toppost">
+              <div class="tp-meta">Last week · Oct 9</div>
+              <div class="tp-title">+10 mph in 1 year — Max Williams…</div>
+              <div class="tp-stats">1,166 views · 36 likes</div>
+            </div>
+            <p class="note">View and like counts are lifetime totals as TikTok Studio displays them. Only 2 videos were published last week. A 4th video published Oct 20 sits outside the analytics window, so it is not in this week's metrics.</p>
+          </div>
+        </div>
+
+        <div class="tbl-wrap" style="margin-top:12px;">
+          <table class="metric-table">
+            <thead>
+              <tr><th>Metric</th><th>This week</th><th>Last week</th><th>Change</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Engagement</td></tr>
+              <tr><td>Likes</td><td>466</td><td>513</td><td><span class="chip down">▼ 9.2%</span></td></tr>
+              <tr><td>Comments</td><td>8</td><td>15</td><td><span class="chip down">▼ 46.7%</span></td></tr>
+              <tr><td>Shares</td><td>25</td><td>21</td><td><span class="chip up">▲ 19.0%</span></td></tr>
+              <tr><td>Total interactions</td><td>499</td><td>549</td><td><span class="chip down">▼ 9.1%</span></td></tr>
+              <tr class="group-row"><td colspan="4">Growth + Reach</td></tr>
+              <tr><td>Followers (latest, Oct 19)</td><td>10,011</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Net new followers</td><td>+4</td><td>+1</td><td><span class="chip up">▲ +3</span></td></tr>
+              <tr><td>Profile views</td><td>119</td><td>163</td><td><span class="chip down">▼ 27.0%</span></td></tr>
+              <tr><td>Video views</td><td>13.7K</td><td>16.7K</td><td><span class="chip down">▼ 11.2% (TikTok)</span></td></tr>
+              <tr class="group-row"><td colspan="4">Content</td></tr>
+              <tr><td>Videos published</td><td>4 (Oct 15, 16, 17, 20)</td><td>2</td><td><span class="chip up">▲ +2</span></td></tr>
+              <tr><td>Top video views</td><td>1,394 (Oct 17)</td><td>5,283 (Oct 11)</td><td><span class="chip down">▼ 73.6%</span></td></tr>
+              <tr><td>Total likes (all time)</td><td>593.4K</td><td class="dash">—</td><td class="dash">—</td></tr>
+              <tr><td>Following</td><td>1</td><td class="dash">—</td><td class="dash">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="color:var(--faint);font-size:13px;margin-top:10px;">TikTok Analytics has no Oct 20 data yet — this section's "this week" is Oct 14–19 (6 days) vs Oct 7–13 (7 days). TikTok displays video views rounded (13.7K / 16.7K), so no exact view total exists; the −11.2% views change is TikTok's own reported figure for the period, not computed from the rounded counts. The Oct 20 video was published in-window but after the analytics cutoff, so it is counted in videos published, not in window metrics.</p>
+      </section>
+
+      <!-- ================= NOT CONNECTED ================= -->
+      <section class="block" data-show="notconnected">
+        <div class="sec-head">
+          <h2>More <span class="accent">Platforms</span></h2>
+          <span class="handle">No numbers shown until connected</span>
+        </div>
+        <div class="nc-grid">
+          <div class="nc" data-platform="x">
+            <h3>X / Twitter</h3>
+            <span class="status">Coming later</span>
+            <p>Not connected yet. Planned for a later version of this dashboard.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FOOTNOTES ================= -->
+      <footer class="notes">
+        <p><b>Data source:</b> Pulled Oct 20, 2026 from the verified team accounts only — Instagram @8ctanebaseball and Threads @8ctanebaseball via the Meta connectors, YouTube (8ctane Baseball, @8ctaneBaseball) via YouTube Studio, and TikTok @8ctanebaseball via TikTok Studio/Analytics. No other accounts were used, and no figures are estimated.</p>
+        <p><b>Engagement rate:</b> Instagram = total interactions ÷ accounts reached (625 ÷ 11,358 = 5.5% this week; 9.1% last week). Threads = total interactions ÷ views (1 ÷ 80 = 1.25% this week; 0% last week).</p>
+        <p><b>Combined totals:</b> Total views (~56,296 this week vs ~75,401 last week) include TikTok's rounded view counts, and TikTok's window is Oct 14–19, one day shorter than the others. Total interactions (1,125 vs 1,698) sum Instagram + Threads + TikTok likes/comments/shares and exclude YouTube, because Studio reports likes only as a net change. Total likes (980 vs 1,481) are gross likes from Instagram, Threads, and TikTok only.</p>
+        <p><b>YouTube likes:</b> YouTube Studio reports Likes as a net change (added minus removed): −142 this week vs +27 last week. It is shown as Net Likes Change in the YouTube table and is never added into gross like totals. Oct 20 YouTube data was still processing in Studio at pull time.</p>
+        <p><b>TikTok windows:</b> TikTok Analytics has no Oct 20 data yet — its "this week" is Oct 14–19 (6 days) vs Oct 7–13 (7 days), and its video views are displayed rounded (13.7K / 16.7K). The −11.2% views change is TikTok's own reported figure for the period.</p>
+        <p><b>Daily follower trend:</b> Meta did not return Oct 8 or Oct 16 for Instagram — the line connects across those gaps. The Threads trend runs through Oct 18, the latest day returned; the profile now reads 619. The TikTok trend runs Oct 7–19; YouTube's chart shows daily net subscriber change, not totals.</p>
+        <p><b>Per-post data:</b> Meta returns likes/comments for Instagram posts and views/likes for Threads posts only — per-post reach, shares, and saves by style are not available and are shown as —.</p>
+        <p><b>Windows:</b> This week = Oct 14–20, 2026 · Last week = Oct 7–13, 2026. Change chips: cyan = increase, gray outline = decrease.</p>
+      </footer>
+    </div>
+
+    <script>
+      // ---------- Platform filter ----------
+      (function () {
+        var buttons = document.querySelectorAll(".filter-btn");
+        var platformSections = document.querySelectorAll("[data-platform]");
+        var allSections = document.querySelectorAll('[data-show="all"]');
+        var ncSection = document.querySelector('[data-show="notconnected"]');
+        var ncPanels = ncSection ? ncSection.querySelectorAll("[data-platform]") : [];
+
+        function apply(filter) {
+          buttons.forEach(function (b) {
+            b.classList.toggle("active", b.getAttribute("data-filter") === filter);
+          });
+          if (filter === "all") {
+            allSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
+            platformSections.forEach(function (s) { s.classList.remove("hidden-by-filter"); });
+            if (ncSection) ncSection.classList.remove("hidden-by-filter");
+            ncPanels.forEach(function (p) { p.classList.remove("hidden-by-filter"); });
+            return;
+          }
+          allSections.forEach(function (s) { s.classList.add("hidden-by-filter"); });
+          platformSections.forEach(function (s) {
+            s.classList.toggle("hidden-by-filter", s.getAttribute("data-platform") !== filter);
+          });
+          // The not-connected grid stays visible only if it holds the selected platform's panel.
+          var isNc = filter === "x";
+          if (ncSection) ncSection.classList.toggle("hidden-by-filter", !isNc);
+          ncPanels.forEach(function (p) {
+            p.classList.toggle("hidden-by-filter", p.getAttribute("data-platform") !== filter);
+          });
+        }
+
+        buttons.forEach(function (b) {
+          b.addEventListener("click", function () { apply(b.getAttribute("data-filter")); });
+        });
+      })();
+
+      // ---------- Daily follower trend lines (SVG) ----------
+      function trendChart(elId, points, yMin, yMax, lastDay, endLabel) {
+        var el = document.getElementById(elId);
+        if (!el) return;
+        var W = 560, H = 190, padL = 52, padR = 14, padT = 16, padB = 28;
+        var iw = W - padL - padR, ih = H - padT - padB;
+        var dayMin = 7, dayMax = 20;
+        function X(day) { return padL + ((day - dayMin) / (dayMax - dayMin)) * iw; }
+        function Y(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * ih; }
+        var s = '<svg class="trend-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Daily follower trend">';
+        // this-week shading (Oct 14-20)
+        s += '<rect x="' + X(13.5) + '" y="' + padT + '" width="' + (X(20.4) - X(13.5)) + '" height="' + ih + '" fill="rgba(0,194,255,0.07)"/>';
+        s += '<text x="' + (X(13.5) + 6) + '" y="' + (padT + 12) + '" fill="#00c2ff" font-size="10.5" font-weight="600">THIS WEEK</text>';
+        s += '<text x="' + (X(7) + 2) + '" y="' + (padT + 12) + '" fill="#647885" font-size="10.5" font-weight="600">LAST WEEK</text>';
+        // gridlines: min / mid / max
+        [yMin, Math.round((yMin + yMax) / 2), yMax].forEach(function (gv) {
+          s += '<line x1="' + padL + '" y1="' + Y(gv) + '" x2="' + (W - padR) + '" y2="' + Y(gv) + '" stroke="#1d2a35" stroke-width="1"/>';
+          s += '<text x="' + (padL - 6) + '" y="' + (Y(gv) + 4) + '" fill="#647885" font-size="11" text-anchor="end">' + gv.toLocaleString("en-US") + '</text>';
+        });
+        // week divider
+        s += '<line x1="' + X(13.5) + '" y1="' + padT + '" x2="' + X(13.5) + '" y2="' + (padT + ih) + '" stroke="#00c2ff" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>';
+        // x labels
+        [[7, "Oct 7"], [13, "Oct 13"], [20, "Oct 20"]].forEach(function (d) {
+          s += '<text x="' + X(d[0]) + '" y="' + (H - 8) + '" fill="#647885" font-size="11" text-anchor="middle">' + d[1] + '</text>';
+        });
+        // line
+        var pts = points.map(function (p) { return X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1); }).join(" ");
+        s += '<polyline points="' + pts + '" fill="none" stroke="#00c2ff" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+        points.forEach(function (p) {
+          s += '<circle cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="3.2" fill="#000" stroke="#00c2ff" stroke-width="2"/>';
+        });
+        // first + last value labels
+        var first = points[0], last = points[points.length - 1];
+        s += '<text x="' + X(first[0]) + '" y="' + (Y(first[1]) - 9) + '" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">' + first[1].toLocaleString("en-US") + '</text>';
+        s += '<text x="' + X(last[0]) + '" y="' + (Y(last[1]) - 9) + '" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">' + last[1].toLocaleString("en-US") + '</text>';
+        s += '<text x="' + X(last[0]) + '" y="' + (Y(last[1]) + 18) + '" fill="#9db2bf" font-size="10.5" text-anchor="middle">' + endLabel + '</text>';
+        s += "</svg>";
+        el.innerHTML = s;
+      }
+
+      trendChart("trend-ig",
+        [[7, 17989], [9, 17983], [10, 17979], [11, 17978], [12, 17977], [13, 17968], [14, 17971], [15, 17972], [17, 17968], [18, 17969], [19, 17966]],
+        17960, 17996, 19, "Oct 19");
+
+      trendChart("trend-th",
+        [[7, 607], [8, 608], [9, 609], [10, 610], [11, 610], [12, 612], [13, 614], [14, 615], [15, 616], [16, 616], [17, 617], [18, 618]],
+        604, 621, 18, "Oct 18");
+
+      trendChart("trend-tt",
+        [[7, 10004], [8, 10003], [9, 10007], [10, 10007], [11, 10004], [12, 10007], [13, 10007], [14, 10006], [15, 10006], [16, 10009], [17, 10014], [18, 10010], [19, 10011]],
+        10000, 10018, 19, "Oct 19");
+
+      // ---------- YouTube daily NET subscriber change (bars around zero) ----------
+      (function () {
+        var el = document.getElementById("trend-yt");
+        if (!el) return;
+        var data = [[7, 0], [8, 0], [9, 0], [10, 1], [11, 0], [12, -1], [13, -1], [14, 0], [15, -1], [16, -2], [17, -1], [18, 0], [19, 0], [20, 1]];
+        var W = 560, H = 190, padL = 52, padR = 14, padT = 16, padB = 28;
+        var iw = W - padL - padR, ih = H - padT - padB;
+        var vMin = -2.6, vMax = 1.6;
+        function X(day) { return padL + ((day - 7) / 13) * iw; }
+        function Y(v) { return padT + (1 - (v - vMin) / (vMax - vMin)) * ih; }
+        var s = '<svg class="trend-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="YouTube daily net subscriber change">';
+        s += '<rect x="' + X(13.5) + '" y="' + padT + '" width="' + (X(20) + 16 - X(13.5)) + '" height="' + ih + '" fill="rgba(0,194,255,0.07)"/>';
+        s += '<text x="' + (X(13.5) + 6) + '" y="' + (padT + 12) + '" fill="#00c2ff" font-size="10.5" font-weight="600">THIS WEEK</text>';
+        s += '<text x="' + (X(7) + 2) + '" y="' + (padT + 12) + '" fill="#647885" font-size="10.5" font-weight="600">LAST WEEK</text>';
+        [-2, -1, 0, 1].forEach(function (gv) {
+          s += '<line x1="' + padL + '" y1="' + Y(gv) + '" x2="' + (W - padR) + '" y2="' + Y(gv) + '" stroke="' + (gv === 0 ? "#43545f" : "#1d2a35") + '" stroke-width="1"/>';
+          s += '<text x="' + (padL - 6) + '" y="' + (Y(gv) + 4) + '" fill="#647885" font-size="11" text-anchor="end">' + (gv > 0 ? "+" + gv : gv) + '</text>';
+        });
+        s += '<line x1="' + X(13.5) + '" y1="' + padT + '" x2="' + X(13.5) + '" y2="' + (padT + ih) + '" stroke="#00c2ff" stroke-width="1" stroke-dasharray="4 4" opacity="0.55"/>';
+        [[7, "Oct 7"], [13, "Oct 13"], [20, "Oct 20"]].forEach(function (d) {
+          s += '<text x="' + X(d[0]) + '" y="' + (H - 8) + '" fill="#647885" font-size="11" text-anchor="middle">' + d[1] + '</text>';
+        });
+        var bw = Math.min(22, iw / data.length - 8);
+        data.forEach(function (p) {
+          var cx = X(p[0]), v = p[1];
+          if (v > 0) {
+            s += '<rect x="' + (cx - bw / 2) + '" y="' + Y(v) + '" width="' + bw + '" height="' + (Y(0) - Y(v)) + '" rx="2" fill="#00c2ff"/>';
+            s += '<text x="' + cx + '" y="' + (Y(v) - 5) + '" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">+' + v + '</text>';
+          } else if (v < 0) {
+            s += '<rect x="' + (cx - bw / 2) + '" y="' + Y(0) + '" width="' + bw + '" height="' + (Y(v) - Y(0)) + '" rx="2" fill="#43545f"/>';
+            s += '<text x="' + cx + '" y="' + (Y(v) + 14) + '" fill="#a7b6bf" font-size="11" font-weight="700" text-anchor="middle">' + v + '</text>';
+          } else {
+            s += '<circle cx="' + cx + '" cy="' + Y(0) + '" r="2.4" fill="#647885"/>';
+          }
+        });
+        s += "</svg>";
+        el.innerHTML = s;
+      })();
+    </script>
+  </body>
+</html>
